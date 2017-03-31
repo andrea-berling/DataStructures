@@ -5,7 +5,7 @@ template<typename T>
 class List 
 {
 	private:
-		List *next,*prev;
+		List *Next,*Prev;
 		T value;
 	public:
 		List();
@@ -34,7 +34,7 @@ class List
 	    	// returns the element in position p
 	    	void write(List* p,T v);
 	    	// writes v in position p
-}
+};
 
 #include "../src/List.cpp"
 #endif

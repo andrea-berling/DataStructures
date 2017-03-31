@@ -1,13 +1,16 @@
 #ifndef LIST_CPP
 #define LIST_CPP
+#include "../include/List.h"
 
+template<typename T>
 List<T>::List()
 {
-	next = this;
-	prev = this;
+	Next = this;
+	Prev = this;
 }
 // Creates an empty list
 
+template<typename T>
 List<T>::~List()
 {
 	List<T> *i = head();
@@ -15,71 +18,89 @@ List<T>::~List()
 	while(!finished(tmp))
 	{
 		tmp = i;
-		i = next(i);
+		i = Next(i);
 		delete tmp;
 	}
 }
 // Destructor
 
+template<typename T>
 bool List<T>::empty()
 {
-	return (next == this) && (prev == this);
+	return (Next == this) && (Prev == this);
 }
 // Returns true if the sequence is empty
 
-bool List<T>::finished(List* p)
+template<typename T>
+bool List<T>::finished(List<T>* p)
 {
 	return p == this;
 }
 // Returns true if the list is finished
-List<T>::List* head()
+
+template<typename T>
+List<T>* List<T>::head()
 {
-	return next;
+	return Next;
 }
 // Returns the position of the first element
-List* List<T>::tail()
+
+template<typename T>
+List<T>* List<T>::tail()
 {
-	return prev;
+	return Prev;
 }
 // Returns the position of the last element
-List* List<T>::next(List* p)
+
+template<typename T>
+List<T>* List<T>::next(List<T>* p)
 {
-	return p->next;
+	return p->Next;
 }
 // Returns the position of p's next element
-List* List<T>::prev(List* p)
+
+template<typename T>
+List<T>* List<T>::prev(List<T>* p)
 {
-	return p->prev;
+	return p->Prev;
 }
 // Returns the position of p's prev element
-List* List<T>::insert(List* p,T v)
+
+template<typename T>
+List<T>* List<T>::insert(List<T>* p,T v)
 {
 	List<T>* t = new List<T>();
 	t->value = v;
-	t->prev = p->prev;
-	t->prev->next = t;
-	t->next = p;
-	p->prev = t;
+	t->Prev = p->Prev;
+	t->Prev->Next = t;
+	t->Next = p;
+	p->Prev = t;
 	return t;
 }
 // Inserts v in position p
 // returns the position of the new inserted element 
-List* List<T>::remove(List* p)
+
+template<typename T>
+List<T>* List<T>::remove(List<T>* p)
 {
-	p->prev->next = p->next;
-	p->next->prev = p->prev;
-	List<T>* t = p->next;
+	p->Prev->Next = p->Next;
+	p->Next->Prev = p->Prev;
+	List<T>* t = p->Next;
 	delete p;
 	return t;
 }
 // removes v in position p
 // returns the position of p's next element
-T List<T>::read(List* p)
+
+template<typename T>
+T List<T>::read(List<T>* p)
 {
 	return p->value;
 }
 // returns the element in position p
-void List<T>::write(List* p,T v)
+
+template<typename T>
+void List<T>::write(List<T>* p,T v)
 {
 	p->value = v;
 }
