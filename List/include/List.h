@@ -10,7 +10,7 @@ class List
 	public:
 		List();
 		// Creates an empty list
-		~List();
+		//~List();
 		// Destructor
 	    	bool empty();
 	     	// Returns true if the sequence is empty

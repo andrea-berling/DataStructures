@@ -10,6 +10,7 @@ List<T>::List()
 }
 // Creates an empty list
 
+/*
 template<typename T>
 List<T>::~List()
 {
@@ -18,11 +19,12 @@ List<T>::~List()
 	while(!finished(tmp))
 	{
 		tmp = i;
-		i = Next(i);
+		i = next(i);
 		delete tmp;
 	}
 }
 // Destructor
+// */
 
 template<typename T>
 bool List<T>::empty()
