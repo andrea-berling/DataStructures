@@ -27,4 +27,8 @@ int main()
 	cout << item->name << " " << item->type << " " << item->kind << " " << item-> n << endl;
 	item = H.lookup("t");
 	cout << item->name << " " << item->type << " " << item->kind << " " << item-> n << endl;
+	H.remove("t");
+	item = H.lookup("t");
+	if (item == nullptr)
+		cout << "Element not found" << endl;
 }
