@@ -3,6 +3,14 @@
 #include "../include/tree.h"
 
 template<typename T>
+Tree<T>::Tree()
+{
+	Parent = nullptr;	
+	Child = nullptr;	
+	Sibling = nullptr;	
+}
+
+template<typename T>
 Tree<T>::Tree(T v)
 {
 	value = v;

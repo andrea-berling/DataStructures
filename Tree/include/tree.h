@@ -10,6 +10,9 @@ class Tree
 		template<typename U>
 		friend void deleteTree(Tree<U>* t);
 	public:
+		Tree();
+		// Constructs an empty tree
+		
 		Tree(T v);
 		// Constructs a tree with a single node containing v
 		

@@ -20,7 +20,7 @@ template<typename T>
 T Queue<T>::dequeue()
 {
 	T t = A.read(A.head());
-	A.remove(A.head());
+    A.remove(A.head());
 	return t;
 }
 // dequeues the element at the head of the queue
