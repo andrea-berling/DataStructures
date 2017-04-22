@@ -10,21 +10,20 @@ List<T>::List()
 }
 // Creates an empty list
 
-/*
 template<typename T>
 List<T>::~List()
 {
-	List<T> *i = head();
-	List<T> *tmp;
-	while(!finished(tmp))
-	{
-		tmp = i;
-		i = next(i);
-		delete tmp;
-	}
+    List<T>* tmp = this->next(this->head());
+
+    while(!finished(tmp))
+    { 
+        free(this->prev(tmp));
+        tmp = this->next(tmp);
+    }
+
+    free(this->next(tmp));  // head
 }
 // Destructor
-// */
 
 template<typename T>
 bool List<T>::empty()
@@ -88,7 +87,7 @@ List<T>* List<T>::remove(List<T>* p)
 	p->Prev->Next = p->Next;
 	p->Next->Prev = p->Prev;
 	List<T>* t = p->Next;
-	delete p;
+	free(p);
 	return t;
 }
 // removes v in position p
