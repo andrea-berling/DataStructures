@@ -75,6 +75,8 @@ class Set
         bool remove(T x);
         // Return ture if x is present in the set and removes it; false if absent
 
+        int size();
+
         // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
 
         set_iterator<T> begin();

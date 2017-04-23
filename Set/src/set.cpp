@@ -211,4 +211,11 @@ bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2)
 {
     return !(it1 == it2);
 }
+
+template<typename T>
+int size()
+{
+    return cardinality;
+}
+
 #endif
