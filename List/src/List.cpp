@@ -21,7 +21,8 @@ List<T>::~List()
         tmp = this->next(tmp);
     }
 
-    free(this->next(tmp));  // head
+    //free(this->next(tmp));  // head
+    
 }
 // Destructor
 
