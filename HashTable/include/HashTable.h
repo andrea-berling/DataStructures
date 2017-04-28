@@ -156,9 +156,14 @@ namespace genKey
     class HashTable
     {
         protected:
+
             HashList<K,V>* entries;
             int m;	//table dimension
+
         public:
+
+            HashTable()
+            {}
 
             HashTable(int capacity);
             //Creates a new hash table with given dimension
@@ -181,5 +186,67 @@ namespace genKey
 
 }
 
+namespace keyOnly
+{
+
+    template<typename K>
+    class HashList
+    {
+        private:
+
+            List<K> l;
+
+        public:
+
+            List<K>* find(K key);
+            // Returns an HashPair given a key if present, null if absent
+            
+            void insert(K key);
+            // Inserts a key-value pair in the HashList
+
+            K* lookup(K key);
+            // Returns a reference to an HashPair value given a key if present; null otherwise
+            
+            void remove(K key);
+            // Removes an element given a key
+
+            bool empty();
+            // Returns true if the list is empty, false otherwise
+
+    };
+
+    template<typename K>
+    class HashTable
+    {
+        protected:
+
+            HashList<K>* entries;
+            int m;	//table dimension
+
+        public:
+
+            HashTable()
+            {}
+
+            HashTable(int capacity);
+            //Creates a new hash table with given dimension
+
+            ~HashTable();
+            //Destructor
+
+            K* lookup(K k);
+            //returns the value being searched if present, nil otherwise
+
+            void insert(K key);
+            //Inserts the key-value pair into the table
+
+            void remove(K key);
+            //Given a key, it removes the key-pair value, if present
+
+            int Hash(long int key);
+            //Hash function
+    };
+
+}
 #include "../src/HashTable.cpp"
 #endif

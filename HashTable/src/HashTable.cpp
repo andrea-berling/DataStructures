@@ -342,5 +342,130 @@ namespace genKey
     //Hash function
 }
 
+namespace keyOnly
+{
+
+    template<typename K>
+    List<K>* HashList<K>::find(K key)
+    {
+        bool found = false;
+        List<K>* e = nullptr;
+        List<K>* i = l.head();
+
+        while(!l.finished(i) && !found)
+        {
+            if(l.read(i) == key)
+            {
+                e = i;
+                found = true;
+            }
+            
+            i = l.next(i);
+        }
+
+        return e;
+    }
+    // Returns an HashPair given a key if present, null if absent
+
+    template<typename K>
+    void HashList<K>::insert(K key)
+    {
+        List<K>* k = find(key);
+
+        if (k == nullptr)
+        {
+            l.insert(l.head(),key);
+        }
+
+    }
+    // Inserts a key-value pair in the HashList
+    
+    template<typename K>
+    K* HashList<K>::lookup(K key)
+    {
+        List<K>* k = find(key);
+        K* e = new K;
+
+        if (k != nullptr)
+            *e = l.read(k);
+        else
+        {
+            delete e;
+            e = nullptr;
+        }
+
+        return e;
+
+    }
+    // Returns a reference to an HashPair value given a key if present; null otherwise
+
+    template<typename K>
+    void HashList<K>::remove(K key)
+    {
+        List<K>* item = find(key);
+        if(item != nullptr)
+            l.remove(item);
+    }
+
+    template<typename K>
+    bool HashList<K>::empty()
+    {
+        return l.empty();
+    }
+
+    template<typename K>
+    HashTable<K>::HashTable(int capacity)
+    {
+        entries = new HashList<K> [capacity];
+        m = capacity;
+    }
+    //Creates a new hash table with given dimension
+
+    template<typename K>
+    HashTable<K>::~HashTable()
+    {
+        delete [] entries;
+    }
+    //Destructor
+
+    template<typename K>
+    K* HashTable<K>::lookup(K k)
+    {
+        int i = Hash(k.hashCode());
+
+        if (entries[i].empty())
+            return nullptr;
+        else
+            return entries[i].lookup(k);
+    }
+    //returns the value being searched if present, nil otherwise
+
+    template<typename K>
+    void HashTable<K>::insert(K key)
+    {
+        int i = Hash(key.hashCode());
+        
+        entries[i].insert(key);
+    }
+    //Inserts the key-value pair into the table
+
+    template<typename K>
+    void HashTable<K>::remove(K key)
+    {
+        int k = Hash(key.hashCode());	
+
+        if (!entries[k].empty())
+            entries[k].remove(key);
+
+    }
+    //Given a key, it removes the key-pair value, if present
+
+    template<typename K>
+    int HashTable<K>::Hash(long int key)
+    {
+        return abs(key) % m;
+    }
+    //Hash function
+}
 #endif
 
