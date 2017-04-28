@@ -254,6 +254,13 @@ namespace keyOnly
     //Destructor
 
     template<typename K>
+    HashTable<K>::HashTable()
+    {
+        entries = nullptr;
+        m = 1;
+    }
+
+    template<typename K>
     K* HashTable<K>::lookup(K k)
     {
         int i = Hash(hash<K>()(k));

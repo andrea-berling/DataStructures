@@ -130,9 +130,9 @@ namespace keyOnly
 
         public:
 
-            HashTable()
-            {}
-
+            HashTable();
+            //Default constructor
+            //
             HashTable(int capacity);
             //Creates a new hash table with given dimension
 
