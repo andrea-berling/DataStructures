@@ -154,6 +154,9 @@ namespace Hash
             Set(int capacity);
             // Default constructor; creates a new empty set
 
+            ~Set();
+            // Destructor
+
             bool isEmpty();
             // Returns true if the set is empty, false otherwise
             

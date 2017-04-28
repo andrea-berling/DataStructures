@@ -232,6 +232,12 @@ namespace Hash
     // Default constructor; creates a new empty set
 
     template<typename T>
+    Set<T>::~Set()
+    {
+        delete iterableElements;
+    }
+
+    template<typename T>
     bool Set<T>::isEmpty()
     {
         return cardinality == 0;
@@ -336,6 +342,8 @@ namespace Hash
     set_iterator<T> set_iterator<T>::begin()
     {
         p = baseList->head();
+        while(!baseSet->contains(baseList->read(p)))
+            p = baseList->remove(p);
         set_iterator<T> ret(*this);
         
         return ret;
