@@ -1,6 +1,7 @@
 #ifndef SET_H
 #define SET_H
 #include "../../List/include/List.h"
+#include "../../HashTable/include/HashTable.h"
 
 template<typename T> class set_iterator;
 
@@ -86,6 +87,101 @@ class Set
         // Returns a reference to the end fo the list
         
 };
+
+namespace Hash
+{
+
+    template<typename T> class Set;
+    template<typename T> class set_iterator;
+
+    template<typename T>
+    bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2);
+
+    template<typename T>
+    bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2);
+
+    template<typename T>
+    class set_iterator
+    {
+        private:
+
+            Set<T>* baseSet;
+            List<T>* baseList;
+            List<T>* p;
+
+        public:
+
+            set_iterator();
+
+            set_iterator(Set<T>* s);
+
+            set_iterator(const set_iterator& it);
+
+            set_iterator begin();
+
+            set_iterator end();
+
+            void operator =(const set_iterator& rightside);
+            
+            set_iterator operator ++(); //prefix
+
+            set_iterator operator ++( int ); //postfix
+
+            T operator *();
+
+            friend bool operator == <>(const set_iterator<T>& it1, const set_iterator<T>& it2);
+
+            friend bool operator != <>(const set_iterator<T>& it1, const set_iterator<T>& it2);
+
+    };
+
+    template<typename T>
+    class Set
+    {
+        private:
+
+            keyOnly::HashTable<T> elements; 
+            int cardinality;
+            List<T>* iterableElements;  /* list of the places in the hashtable in which there has been at least an insertio
+                                            useful for iteration over the set */ 
+            friend class set_iterator<T>;
+
+        public:
+
+            Set()
+            {}
+
+            Set(int capacity);
+            // Default constructor; creates a new empty set
+
+            bool isEmpty();
+            // Returns true if the set is empty, false otherwise
+            
+            bool contains(T x);
+            // Returns true if the set contains x, false otherwise
+
+            T* lookup(T x);
+            // Return a pointer to the element x if present, nil otherwise
+            
+            bool insert(T x);
+            // Returns true if x is not in the element and is successfully inserted; false if present
+
+            bool remove(T x);
+            // Return ture if x is present in the set and removes it; false if absent
+
+            int size();
+
+            // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
+
+            set_iterator<T> begin();
+            // Returns a reference to the first element in the list
+
+            set_iterator<T> end();
+            // Returns a reference to the end fo the list
+            
+    };
+
+}
 
 #include "../src/set.cpp"
 

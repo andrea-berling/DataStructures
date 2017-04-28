@@ -1,0 +1,78 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Hash	include/set.h	/^namespace Hash$/;"	n
+Hash	src/set.cpp	/^namespace Hash$/;"	n	file:
+Integer	main.cpp	/^        Integer()$/;"	f	class:Integer
+Integer	main.cpp	/^        Integer(int a):i(a){ };$/;"	f	class:Integer
+Integer	main.cpp	/^class Integer$/;"	c	file:
+SET_CPP	src/set.cpp	2;"	d	file:
+SET_H	include/set.h	2;"	d
+Set	include/set.h	/^            Set()$/;"	f	class:Hash::Set
+Set	include/set.h	/^    class Set$/;"	c	namespace:Hash
+Set	include/set.h	/^class Set$/;"	c
+Set	src/set.cpp	/^    Set<T>::Set(int capacity)$/;"	f	class:Hash::Set
+Set	src/set.cpp	/^Set<T>::Set()$/;"	f	class:Set
+baseList	include/set.h	/^            List<T>* baseList;$/;"	m	class:Hash::set_iterator
+baseList	include/set.h	/^        List<T>* baseList;$/;"	m	class:set_iterator
+begin	src/set.cpp	/^    set_iterator<T> Set<T>::begin()$/;"	f	class:Hash::Set
+begin	src/set.cpp	/^    set_iterator<T> set_iterator<T>::begin()$/;"	f	class:Hash::set_iterator
+begin	src/set.cpp	/^set_iterator<T> Set<T>::begin()$/;"	f	class:Set
+begin	src/set.cpp	/^set_iterator<T> set_iterator<T>::begin(List<T>* l)$/;"	f	class:set_iterator
+cardinality	include/set.h	/^            int cardinality;$/;"	m	class:Hash::Set
+cardinality	include/set.h	/^        int cardinality;$/;"	m	class:Set
+contains	src/set.cpp	/^    bool Set<T>::contains(T x)$/;"	f	class:Hash::Set
+contains	src/set.cpp	/^bool Set<T>::contains(T x)$/;"	f	class:Set
+elements	include/set.h	/^            keyOnly::HashTable<T> elements; $/;"	m	class:Hash::Set
+elements	include/set.h	/^        List<T>* elements;$/;"	m	class:Set
+end	src/set.cpp	/^    set_iterator<T> Set<T>::end()$/;"	f	class:Hash::Set
+end	src/set.cpp	/^    set_iterator<T> set_iterator<T>::end()$/;"	f	class:Hash::set_iterator
+end	src/set.cpp	/^set_iterator<T> Set<T>::end()$/;"	f	class:Set
+end	src/set.cpp	/^set_iterator<T> set_iterator<T>::end(List<T>* l)$/;"	f	class:set_iterator
+getN	main.cpp	/^        int getN()$/;"	f	class:Integer
+hash	main.cpp	/^    template <> struct hash<Integer>$/;"	s	namespace:std	file:
+i	main.cpp	/^        int i;$/;"	m	class:Integer	file:
+insert	src/set.cpp	/^    bool Set<T>::insert(T x)$/;"	f	class:Hash::Set
+insert	src/set.cpp	/^bool Set<T>::insert(T x)$/;"	f	class:Set
+isEmpty	src/set.cpp	/^    bool Set<T>::isEmpty()$/;"	f	class:Hash::Set
+isEmpty	src/set.cpp	/^bool Set<T>::isEmpty()$/;"	f	class:Set
+iterableElements	include/set.h	/^            List<T>* iterableElements;  \/* list of the places in the hashtable in which there has been at least an insertio$/;"	m	class:Hash::Set
+lookup	src/set.cpp	/^    T* Set<T>::lookup(T x)$/;"	f	class:Hash::Set
+lookup	src/set.cpp	/^T* Set<T>::lookup(T x)$/;"	f	class:Set
+main	main.cpp	/^int main()$/;"	f
+operator !=	src/set.cpp	/^    bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2)$/;"	f	namespace:Hash
+operator !=	src/set.cpp	/^bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2)$/;"	f
+operator ()	main.cpp	/^        size_t operator()(Integer i) const$/;"	f	struct:std::hash
+operator *	src/set.cpp	/^    T set_iterator<T>::operator *()$/;"	f	class:Hash::set_iterator
+operator *	src/set.cpp	/^T set_iterator<T>::operator *()$/;"	f	class:set_iterator
+operator ++	src/set.cpp	/^    set_iterator<T> set_iterator<T>::operator ++( int ) \/\/postfix$/;"	f	class:Hash::set_iterator
+operator ++	src/set.cpp	/^    set_iterator<T> set_iterator<T>::operator ++() \/\/prefix$/;"	f	class:Hash::set_iterator
+operator ++	src/set.cpp	/^set_iterator<T> set_iterator<T>::operator ++( int ) \/\/postfix$/;"	f	class:set_iterator
+operator ++	src/set.cpp	/^set_iterator<T> set_iterator<T>::operator ++() \/\/prefix$/;"	f	class:set_iterator
+operator --	src/set.cpp	/^    set_iterator<T> set_iterator<T>::operator --( int ) \/\/postfix$/;"	f	class:Hash::set_iterator
+operator --	src/set.cpp	/^    set_iterator<T> set_iterator<T>::operator --() \/\/prefix$/;"	f	class:Hash::set_iterator
+operator --	src/set.cpp	/^set_iterator<T> set_iterator<T>::operator --( int ) \/\/postfix$/;"	f	class:set_iterator
+operator --	src/set.cpp	/^set_iterator<T> set_iterator<T>::operator --() \/\/prefix$/;"	f	class:set_iterator
+operator <<	main.cpp	/^ostream& operator <<(ostream& out,Integer i)$/;"	f
+operator =	src/set.cpp	/^    void set_iterator<T>::operator =(const set_iterator<T>& rightside)$/;"	f	class:Hash::set_iterator
+operator =	src/set.cpp	/^void set_iterator<T>::operator =(const set_iterator<T>& rightside)$/;"	f	class:set_iterator
+operator ==	main.cpp	/^bool operator ==(Integer n, Integer m)$/;"	f
+operator ==	src/set.cpp	/^    bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2)$/;"	f	namespace:Hash
+operator ==	src/set.cpp	/^bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2)$/;"	f
+p	include/set.h	/^            List<T>* p;$/;"	m	class:Hash::set_iterator
+p	include/set.h	/^        List<T>* p;$/;"	m	class:set_iterator
+remove	src/set.cpp	/^    bool Set<T>::remove(T x)$/;"	f	class:Hash::Set
+remove	src/set.cpp	/^bool Set<T>::remove(T x)$/;"	f	class:Set
+set_iterator	include/set.h	/^    class set_iterator$/;"	c	namespace:Hash
+set_iterator	include/set.h	/^class set_iterator$/;"	c
+set_iterator	src/set.cpp	/^    set_iterator<T>::set_iterator()$/;"	f	class:Hash::set_iterator
+set_iterator	src/set.cpp	/^    set_iterator<T>::set_iterator(List<T>* l)$/;"	f	class:Hash::set_iterator
+set_iterator	src/set.cpp	/^    set_iterator<T>::set_iterator(const set_iterator& it)$/;"	f	class:Hash::set_iterator
+set_iterator	src/set.cpp	/^set_iterator<T>::set_iterator()$/;"	f	class:set_iterator
+set_iterator	src/set.cpp	/^set_iterator<T>::set_iterator(const set_iterator& it)$/;"	f	class:set_iterator
+size	src/set.cpp	/^    int Set<T>::size()$/;"	f	class:Hash::Set
+size	src/set.cpp	/^int Set<T>::size()$/;"	f	class:Set
+std	main.cpp	/^namespace std$/;"	n	file:
