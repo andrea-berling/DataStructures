@@ -10,8 +10,7 @@ struct var
 	int n;	
 };
 
-class Node: public Hashable
-{
+class Node {
     private:
 
         string name;
@@ -24,11 +23,6 @@ class Node: public Hashable
 
         Node(string name, int weight): name(name), weight(weight)
         {}
-
-        virtual long int hashCode()
-        {
-            return (long int) std::hash<string>()(name);
-        }
 
         string getName()
         {
@@ -59,6 +53,17 @@ class Node: public Hashable
 
 };
 
+namespace std
+{
+    template <> struct hash<Node>
+    {
+        size_t operator()(Node & n) const
+        {
+            return hash<string>()(n.getName());
+        }
+    };
+}
+
 bool operator ==(const Node& n1, const Node& n2)
 {
     return (n1.name == n2.name) && (n1.weight == n2.weight);
@@ -66,7 +71,7 @@ bool operator ==(const Node& n1, const Node& n2)
 
 int main()
 {
-    stringKey::HashTable<var> H(10);
+/*    stringKey::HashTable<var> H(10);
 	H.insert("x",{"x","int","argument",2});
 	H.insert("y",{"y","string","argument",2});
 	H.insert("z",{"z","pointer","var",2});
@@ -85,6 +90,7 @@ int main()
 	item = H.lookup("t");
 	if (item == nullptr)
 		cout << "Element not found" << endl;
+        */
 
     genKey::HashTable<Node,Node> H2(10);
 

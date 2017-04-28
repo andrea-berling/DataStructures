@@ -305,7 +305,7 @@ namespace genKey
     template<typename K, typename V>
     V* HashTable<K,V>::lookup(K k)
     {
-        int i = Hash(k.hashCode());
+        int i = Hash(hash<K>()(k));
 
         if (entries[i].empty())
             return nullptr;
@@ -317,7 +317,7 @@ namespace genKey
     template<typename K, typename V>
     void HashTable<K,V>::insert(K key,V value)
     {
-        int i = Hash(key.hashCode());
+        int i = Hash(hash<K>()(key));
         
         entries[i].insert(key,value);
     }
@@ -326,7 +326,7 @@ namespace genKey
     template<typename K, typename V>
     void HashTable<K,V>::remove(K key)
     {
-        int k = Hash(key.hashCode());	
+        int k = Hash(hash<K>()(key));	
 
         if (!entries[k].empty())
             entries[k].remove(key);
@@ -431,7 +431,7 @@ namespace keyOnly
     template<typename K>
     K* HashTable<K>::lookup(K k)
     {
-        int i = Hash(k.hashCode());
+        int i = Hash(hash<K>()(k));
 
         if (entries[i].empty())
             return nullptr;
@@ -443,7 +443,7 @@ namespace keyOnly
     template<typename K>
     void HashTable<K>::insert(K key)
     {
-        int i = Hash(key.hashCode());
+        int i = Hash(hash<K>()(key));
         
         entries[i].insert(key);
     }
@@ -452,7 +452,7 @@ namespace keyOnly
     template<typename K>
     void HashTable<K>::remove(K key)
     {
-        int k = Hash(key.hashCode());	
+        int k = Hash(hash<K>()(key));	
 
         if (!entries[k].empty())
             entries[k].remove(key);
