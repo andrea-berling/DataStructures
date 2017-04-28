@@ -3,188 +3,93 @@
 #include <string>
 #include "../../List/include/List.h"
 
-namespace stringKey
+template<typename K, typename V>
+class HashPair
 {
-    template<typename T>
-    class HashPair
-    {
-        private:
-            std::string key;
-            T value;
-        public:
+    private:
 
-            HashPair();
-            // Default constructor
-            
-            HashPair(std::string key,T value);
-            // constructs a new hash pair given a key and a value
+        K key;
+        V value;
 
-            std::string getKey();
-            // returns the key
-            
-            void setKey(std::string key);
-            // sets the key
-            
-            T getValue();
-            // returns the value
-            
-            void setValue(T v);
-            // sets the value
-            
-    };
-
-    template<typename T>
-    class HashList
-    {
-        private:
-
-            List<HashPair<T>> l;
-
-        public:
-
-            List<HashPair<T>>* find(std::string key);
-            // Returns an HashPair given a key if present, null if absent
-            void insert(std::string key,T value);
-            // Inserts a key-value pair in the HashList
-
-            T* lookup(std::string key);
-            // Returns a reference to an HashPair value given a key if present; null otherwise
-            
-            void remove(std::string key);
-            // Removes an element given a key
-
-            bool empty();
-            // Returns true if the list is empty, false otherwise
-
-    };
-
-    template<typename T>
-    class HashTable
-    {
-        protected:
-            HashList<T>* entries;
-            int m;	//table dimension
-        public:
-
-            HashTable(int capacity);
-            //Creates a new hash table with given dimension
-
-            ~HashTable();
-            //Destructor
-
-            T* lookup(std::string k);
-            //returns the value being searched if present, nil otherwise
-
-            void insert(std::string key,T value);
-            //Inserts the key-value pair into the table
-
-            void remove(std::string key);
-            //Given a key, it removes the key-pair value, if present
-
-            int Hash(std::string key);
-            //Hash function
-    };
-}
-
-class Hashable
-{
     public:
-        virtual long int hashCode()
-        {}
+
+        HashPair();
+        // Default constructor
+        
+        HashPair(K key,V value);
+        // constructs a new hash pair given a key and a value
+
+        K getKey();
+        // returns the key
+        
+        void setKey(K key);
+        // sets the key
+        
+        V getValue();
+        // returns the value
+        
+        void setValue(V v);
+        // sets the value
+        
 };
 
-
-namespace genKey
+template<typename K, typename V>
+class HashList
 {
-    template<typename K, typename V>
-    class HashPair
-    {
-        private:
+    private:
 
-            K key;
-            V value;
+        List<HashPair<K,V>> l;
 
-        public:
+    public:
 
-            HashPair();
-            // Default constructor
-            
-            HashPair(K key,V value);
-            // constructs a new hash pair given a key and a value
+        List<HashPair<K,V>>* find(K key);
+        // Returns an HashPair given a key if present, null if absent
+        
+        void insert(K key,V value);
+        // Inserts a key-value pair in the HashList
 
-            K getKey();
-            // returns the key
-            
-            void setKey(K key);
-            // sets the key
-            
-            V getValue();
-            // returns the value
-            
-            void setValue(V v);
-            // sets the value
-            
-    };
+        V* lookup(K key);
+        // Returns a reference to an HashPair value given a key if present; null otherwise
+        
+        void remove(K key);
+        // Removes an element given a key
 
-    template<typename K, typename V>
-    class HashList
-    {
-        private:
+        bool empty();
+        // Returns true if the list is empty, false otherwise
 
-            List<HashPair<K,V>> l;
+};
 
-        public:
+template<typename K, typename V>
+class HashTable
+{
+    protected:
 
-            List<HashPair<K,V>>* find(K key);
-            // Returns an HashPair given a key if present, null if absent
-            
-            void insert(K key,V value);
-            // Inserts a key-value pair in the HashList
+        HashList<K,V>* entries;
+        int m;	//table dimension
 
-            V* lookup(K key);
-            // Returns a reference to an HashPair value given a key if present; null otherwise
-            
-            void remove(K key);
-            // Removes an element given a key
+    public:
 
-            bool empty();
-            // Returns true if the list is empty, false otherwise
+        HashTable()
+        {}
 
-    };
+        HashTable(int capacity);
+        //Creates a new hash table with given dimension
 
-    template<typename K, typename V>
-    class HashTable
-    {
-        protected:
+        ~HashTable();
+        //Destructor
 
-            HashList<K,V>* entries;
-            int m;	//table dimension
+        V* lookup(K k);
+        //returns the value being searched if present, nil otherwise
 
-        public:
+        void insert(K key,V value);
+        //Inserts the key-value pair into the table
 
-            HashTable()
-            {}
+        void remove(K key);
+        //Given a key, it removes the key-pair value, if present
 
-            HashTable(int capacity);
-            //Creates a new hash table with given dimension
-
-            ~HashTable();
-            //Destructor
-
-            V* lookup(K k);
-            //returns the value being searched if present, nil otherwise
-
-            void insert(K key,V value);
-            //Inserts the key-value pair into the table
-
-            void remove(K key);
-            //Given a key, it removes the key-pair value, if present
-
-            int Hash(long int key);
-            //Hash function
-    };
-
-}
+        int Hash(long int key);
+        //Hash function
+};
 
 namespace keyOnly
 {
