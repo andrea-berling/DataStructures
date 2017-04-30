@@ -1,4 +1,5 @@
 #include "include/HashTable.h"
+#include <limits.h>
 #include <iostream>
 #include <string>
 
@@ -11,6 +12,7 @@ struct var
 };
 
 class Node {
+
     private:
 
         string name;
@@ -19,7 +21,16 @@ class Node {
     public:
 
         Node()
-        {}
+        {
+            name = ""; 
+            weight = INT_MAX;
+        }
+
+        Node(const Node& m)
+        {
+            name = m.name;
+            weight = m.weight;
+        }
 
         Node(string name, int weight): name(name), weight(weight)
         {}
@@ -53,6 +64,7 @@ class Node {
 
 };
 
+
 namespace std
 {
     template <> struct hash<Node>
@@ -68,6 +80,8 @@ bool operator ==(const Node& n1, const Node& n2)
 {
     return (n1.name == n2.name) && (n1.weight == n2.weight);
 }
+
+Node nil("",INT_MAX);
 
 int main()
 {
@@ -99,21 +113,23 @@ int main()
     H2.insert("numero 3",{"numero 3", 3});
     H2.insert("numero 4",{"numero 4", 4});
 
-    Node* i;
+    Node i;
 
     i = H2.lookup("numero 1");
-    i->print();
+    i.print();
     i = H2.lookup("numero 4");
-    i->print();
+    i.print();
     i = H2.lookup("numero 2");
-    i->print();
+    i.print();
     i = H2.lookup("numero 3");
-    i->print();
+    i.print();
 
     H2.remove("numero 1");
     i = H2.lookup("numero 1");
-    if (i == nullptr)
+    if(i == nil)
         cout << "Element not found" << endl;
-    else
-        cout << "Error" << endl;
+
+    
+    for(hash_iterator<string,Node> it = H2.begin(); it != it.end(); it++)
+        (*it).getValue().print();
 }

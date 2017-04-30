@@ -84,15 +84,14 @@ void HashList<K,V>::insert(K key,V value)
 // Inserts a key-value pair in the HashList
 
 template<typename K, typename V>
-V* HashList<K,V>::lookup(K key)
+V HashList<K,V>::lookup(K key)
 {
     List<HashPair<K,V>>* kv = find(key);
-    V* e = nullptr;
+    V e;
 
     if (kv != nullptr)
     {
-        e = new V;
-        *e = (l.read(kv)).getValue();
+        e = (l.read(kv)).getValue();
     }
 
     return e;
@@ -114,6 +113,142 @@ bool HashList<K,V>::empty()
 }
 
 template<typename K, typename V>
+List<HashPair<K,V>>* HashList<K,V>::head()
+{
+    return l.head();
+}
+
+template<typename K, typename V>
+List<HashPair<K,V>>* HashList<K,V>::tail()
+{
+    return l.tail();
+}
+
+template<typename K, typename V>
+List<HashPair<K,V>>* HashList<K,V>::next(List<HashPair<K,V>>* p)
+{
+    return l.next(p);
+}
+
+template<typename K, typename V>
+bool HashList<K,V>::finished(List<HashPair<K,V>>* p)
+{
+    return l.finished(p);
+}
+
+template<typename K, typename V>
+List<HashPair<K,V>>* hash_iterator<K,V>::nextOccurrence()
+{
+    i++;
+
+    it = nullptr;
+
+    while(i < baseTable->m && it == nullptr)
+    {
+        if(baseTable->entries[i].empty())
+            i++;
+        else
+            it = baseTable->entries[i].head();
+    }
+
+    return it;
+}
+
+template<typename K, typename V>
+hash_iterator<K,V>::hash_iterator()
+{
+    baseTable = nullptr;
+    i = -1;
+    it = nullptr;
+}
+
+template<typename K, typename V>
+hash_iterator<K,V>::hash_iterator(HashTable<K,V>* table)
+{
+    baseTable = table;
+    i = -1;
+    it = nullptr;
+}
+
+template<typename K, typename V>
+hash_iterator<K,V>::hash_iterator(const hash_iterator& it2)
+{
+    baseTable = it2.baseTable;
+    i = it2.i;
+    it = it2.it;
+}
+
+template<typename K, typename V>
+bool operator ==(const hash_iterator<K,V>& it, const hash_iterator<K,V>& it2)
+{
+    return (it.baseTable == it2.baseTable && it.it == it2.it);
+}
+
+template<typename K, typename V>
+bool operator !=(const hash_iterator<K,V>& it, const hash_iterator<K,V>& it2)
+{
+    return !(it == it2);
+}
+
+template<typename K, typename V>
+hash_iterator<K,V> hash_iterator<K,V>::begin()
+{
+    if(i != 0)
+        i = -1;
+
+    hash_iterator<K,V> ret(*this);
+
+    ret.nextOccurrence();
+
+    return ret;
+}
+
+template<typename K, typename V>
+hash_iterator<K,V> hash_iterator<K,V>::end()
+{
+    hash_iterator<K,V> ret(*this);
+    ret.i = baseTable->m;
+    ret.it = nullptr;
+    return ret;
+}
+
+template<typename K, typename V>
+hash_iterator<K,V> hash_iterator<K,V>::operator ++() //prefix
+{
+    it = baseTable->entries[i].next(it);
+
+    if (baseTable->entries[i].finished(it))
+    {
+        it = nextOccurrence();
+    }
+
+    return *this;
+}
+
+template<typename K, typename V>
+hash_iterator<K,V> hash_iterator<K,V>::operator ++( int ) //postfix
+{
+    hash_iterator<K,V> oldit(*this);
+
+    ++(*this);
+
+    return oldit;
+}
+
+template<typename K, typename V>
+HashPair<K,V> hash_iterator<K,V>::operator *()
+{
+    
+    return baseTable->entries[i].read(it);
+}
+
+template<typename K, typename V>
+HashPair<K,V> HashList<K,V>::read(List<HashPair<K,V>>* p)
+{
+    return l.read(p);
+}
+
+template<typename K, typename V>
 HashTable<K,V>::HashTable(int capacity)
 {
     entries = new HashList<K,V> [capacity];
@@ -129,14 +264,15 @@ HashTable<K,V>::~HashTable()
 //Destructor
 
 template<typename K, typename V>
-V* HashTable<K,V>::lookup(K k)
+V HashTable<K,V>::lookup(K k)
 {
     int i = Hash(hash<K>()(k));
+    V value = V();
 
-    if (entries[i].empty())
-        return nullptr;
-    else
-        return entries[i].lookup(k);
+    if (!entries[i].empty())
+        value = entries[i].lookup(k);
+
+    return value;
 }
 //returns the value being searched if present, nil otherwise
 
@@ -166,6 +302,22 @@ int HashTable<K,V>::Hash(long int key)
     return abs(key) % m;
 }
 //Hash function
+
+template<typename K, typename V>
+hash_iterator<K,V> HashTable<K,V>::begin()
+{
+    hash_iterator<K,V> ret(this);
+
+    return ret.begin();
+}
+
+template<typename K, typename V>
+hash_iterator<K,V> HashTable<K,V>::end()
+{
+    hash_iterator<K,V> ret(this);
+
+    return ret.end();
+}
 
 namespace keyOnly
 {
@@ -206,21 +358,15 @@ namespace keyOnly
     // Inserts a key-value pair in the HashList
     
     template<typename K>
-    K* HashList<K>::lookup(K key)
+    K HashList<K>::lookup(K key)
     {
         List<K>* k = find(key);
-        K* e = new K;
+        K e;
 
         if (k != nullptr)
-            *e = l.read(k);
-        else
-        {
-            delete e;
-            e = nullptr;
-        }
+            e = l.read(k);
 
         return e;
-
     }
     // Returns a reference to an HashPair value given a key if present; null otherwise
 
@@ -236,6 +382,142 @@ namespace keyOnly
     bool HashList<K>::empty()
     {
         return l.empty();
+    }
+
+    template<typename K>
+    List<K>* HashList<K>::head()
+    {
+        return l.head();
+    }
+
+    template<typename K>
+    List<K>* HashList<K>::tail()
+    {
+        return l.tail();
+    }
+
+    template<typename K>
+    List<K>* HashList<K>::next(List<K>* p)
+    {
+        return l.next(p);
+    }
+
+    template<typename K>
+    bool HashList<K>::finished(List<K>* p)
+    {
+        return l.finished(p);
+    }
+
+    template<typename K>
+    K HashList<K>::read(List<K>* p)
+    {
+        return l.read(p);
+    }
+
+    template<typename K>
+    List<K>* hash_iterator<K>::nextOccurrence()
+    {
+        i++;
+
+        it = nullptr;
+
+        while(i < baseTable->m && it == nullptr)
+        {
+            if(baseTable->entries[i].empty())
+                i++;
+            else
+                it = baseTable->entries[i].head();
+        }
+
+        return it;
+    }
+
+    template<typename K>
+    hash_iterator<K>::hash_iterator()
+    {
+        baseTable = nullptr;
+        i = -1;
+        it = nullptr;
+    }
+
+    template<typename K>
+    hash_iterator<K>::hash_iterator(HashTable<K>* table)
+    {
+        baseTable = table;
+        i = -1;
+        it = nullptr;
+    }
+
+    template<typename K>
+    hash_iterator<K>::hash_iterator(const hash_iterator& it2)
+    {
+        baseTable = it2.baseTable;
+        i = it2.i;
+        it = it2.it;
+    }
+
+    template<typename K>
+    bool operator ==(const hash_iterator<K>& it, const hash_iterator<K>& it2)
+    {
+        return (it.baseTable == it2.baseTable && it.it == it2.it);
+    }
+
+    template<typename K>
+    bool operator !=(const hash_iterator<K>& it, const hash_iterator<K>& it2)
+    {
+        return !(it == it2);
+    }
+
+    template<typename K>
+    hash_iterator<K> hash_iterator<K>::begin()
+    {
+        if(i != 0)
+            i = -1;
+
+        hash_iterator<K> ret(*this);
+
+        ret.nextOccurrence();
+
+        return ret;
+    }
+
+    template<typename K>
+    hash_iterator<K> hash_iterator<K>::end()
+    {
+        hash_iterator<K> ret(*this);
+        ret.i = baseTable->m;
+        ret.it = nullptr;
+        return ret;
+    }
+
+    template<typename K>
+    hash_iterator<K> hash_iterator<K>::operator ++() //prefix
+    {
+        it = baseTable->entries[i].next(it);
+
+        if (baseTable->entries[i].finished(it))
+        {
+            it = nextOccurrence();
+        }
+
+        return *this;
+    }
+
+    template<typename K>
+    hash_iterator<K> hash_iterator<K>::operator ++( int ) //postfix
+    {
+        hash_iterator<K> oldit(*this);
+
+        ++(*this);
+
+        return oldit;
+    }
+
+    template<typename K>
+    K hash_iterator<K>::operator *()
+    {
+        
+        return baseTable->entries[i].read(it);
     }
 
     template<typename K>
@@ -261,14 +543,15 @@ namespace keyOnly
     }
 
     template<typename K>
-    K* HashTable<K>::lookup(K k)
+    K HashTable<K>::lookup(K k)
     {
+        K key;
         int i = Hash(hash<K>()(k));
 
-        if (entries[i].empty())
-            return nullptr;
-        else
-            return entries[i].lookup(k);
+        if (!entries[i].empty())
+            key = entries[i].lookup(k);
+
+        return key;
     }
     //returns the value being searched if present, nil otherwise
 
