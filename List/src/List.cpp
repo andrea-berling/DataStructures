@@ -96,4 +96,18 @@ void List<T>::write(List<T>* p,T v)
 	p->value = v;
 }
 // writes v in position p
+
+template<typename T>
+void List<T>::destroy()
+{
+    List<T>* i = head();
+    List<T>* next;
+    while(!finished(i))
+    {
+        next = this->next(i);
+        remove(i);
+        i = next;
+    }
+}
+//
 #endif

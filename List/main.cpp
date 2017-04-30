@@ -20,6 +20,6 @@ int main()
         cout << l->read(i) << " ";
     cout << endl;
 
-    delete l;
+    l->destroy();
 
 }

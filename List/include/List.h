@@ -48,6 +48,9 @@ class List
 
         void write(List* p,T v);
         // writes v in position p
+
+        void destroy();
+        // Frees the memory occupied by the entire list
 };
 
 #include "../src/List.cpp"
