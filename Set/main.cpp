@@ -1,3 +1,4 @@
+#include <limits.h>
 #include "include/set.h"
 #include <iostream>
 
@@ -12,7 +13,9 @@ class Integer
     public:
 
         Integer()
-        { }
+        {
+            i = INT_MAX;
+        }
 
         Integer(int a):i(a){ };
 
