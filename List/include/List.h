@@ -14,9 +14,6 @@ class List
 		List();
 		// Creates an empty list
 
-		~List();
-		// Destructor
-
         bool empty();
         // Returns true if the sequence is empty
 

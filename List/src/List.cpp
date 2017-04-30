@@ -5,15 +5,11 @@
 template<typename T>
 List<T>::List()
 {
+    value = T();
 	Next = this;
 	Prev = this;
 }
 // Creates an empty list
-
-template<typename T>
-List<T>::~List()
-{}
-// Destructor
 
 template<typename T>
 bool List<T>::empty()
