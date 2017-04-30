@@ -18,7 +18,7 @@ List<T>::~List()
 template<typename T>
 bool List<T>::empty()
 {
-	return (Next == this) && (Prev == this);
+	return (Next == this && Prev == this);
 }
 // Returns true if the sequence is empty
 
@@ -77,7 +77,7 @@ List<T>* List<T>::remove(List<T>* p)
 	p->Prev->Next = p->Next;
 	p->Next->Prev = p->Prev;
 	List<T>* t = p->Next;
-	delete(p);
+	delete p;
 	return t;
 }
 // removes v in position p
