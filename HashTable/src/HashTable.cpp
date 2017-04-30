@@ -7,13 +7,14 @@ using namespace std;
 
 template<typename K, typename V>
 HashPair<K,V>::HashPair()
-{ }
+{ 
+    key = K();
+    value = V();
+}
 
 template<typename K, typename V>
-HashPair<K,V>::HashPair(K key,V value)
+HashPair<K,V>::HashPair(K key,V value):key(key), value(value)
 {
-    this->key = key;
-    this->value = value;
 }
 
 template<typename K, typename V>
@@ -70,14 +71,14 @@ template<typename K, typename V>
 void HashList<K,V>::insert(K key,V value)
 {
     List<HashPair<K,V>>* kv = find(key);
+    HashPair<K,V> k(key,value);
 
     if (kv != nullptr)
     {
-        (l.read(kv)).setValue(value);
+        l.write(kv,k);
     }
     else
     {
-        HashPair<K,V> k(key,value);
         l.insert(l.head(),k);
     }
 }
@@ -327,17 +328,21 @@ namespace keyOnly
     {
         bool found = false;
         List<K>* e = nullptr;
-        List<K>* i = l.head();
 
-        while(!l.finished(i) && !found)
+        if(!l.empty())
         {
-            if(l.read(i) == key)
+            List<K>* i = l.head();
+
+            while(!l.finished(i) && !found)
             {
-                e = i;
-                found = true;
+                if(l.read(i) == key)
+                {
+                    e = i;
+                    found = true;
+                }
+                
+                i = l.next(i);
             }
-            
-            i = l.next(i);
         }
 
         return e;
@@ -352,6 +357,10 @@ namespace keyOnly
         if (k == nullptr)
         {
             l.insert(l.head(),key);
+        }
+        else
+        {
+            l.write(k,key);
         }
 
     }
