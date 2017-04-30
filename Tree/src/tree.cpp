@@ -105,4 +105,10 @@ void deleteTree(Tree<T>* t)
 	delete t;
 }
 
+template<typename T>
+void Tree<T>::destroy()
+{
+    deleteChild();
+}
+
 #endif

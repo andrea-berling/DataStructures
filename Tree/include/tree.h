@@ -5,11 +5,14 @@ template<typename T>
 class Tree
 {
 	private:
+
 		T value;
 		Tree *Parent,*Child,*Sibling;
 		template<typename U>
 		friend void deleteTree(Tree<U>* t);
+
 	public:
+
 		Tree();
 		// Constructs an empty tree
 		
@@ -41,6 +44,9 @@ class Tree
 
 		void deleteSibling();
 		// Deletes the subtree that is the next sibling of the current node
+
+        void destroy();
+        // Frees the memory occupied by the tree
 };
 
 #include "../src/tree.cpp"
