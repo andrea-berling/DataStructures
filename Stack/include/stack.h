@@ -6,8 +6,11 @@ template<typename T>
 class Stack
 {
 	private:
+
 		List<T> A;
+
 	public:
+
 		Stack();
 		// Constructs an empty stack
 
