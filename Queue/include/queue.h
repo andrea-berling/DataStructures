@@ -6,8 +6,13 @@ template<typename T>
 class Queue
 {
 	private:
+
 		List<T> A;
+
 	public:
+
+        ~Queue();
+        // Destructor
 
 		bool isEmpty();
 		//returns true if the queue is empty

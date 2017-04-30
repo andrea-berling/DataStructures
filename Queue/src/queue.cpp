@@ -3,6 +3,13 @@
 #include "../include/queue.h"
 
 template<typename T>
+Queue<T>::~Queue()
+{
+    A.destroy();
+}
+// Destructor
+
+template<typename T>
 bool Queue<T>::isEmpty()
 {
 	return A.empty();
