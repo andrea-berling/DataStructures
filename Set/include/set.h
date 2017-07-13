@@ -19,7 +19,7 @@ namespace list
         private:
 
             List<T>* baseList;
-            List<T>* p;
+            List_iterator<T> p;
 
         public:
 
@@ -54,7 +54,7 @@ namespace list
     {
         private:
 
-            List<T>* elements;
+            List<T> elements;
             int cardinality;
             friend class set_iterator<T>;
 
@@ -137,9 +137,6 @@ namespace Hash
 
             Set(int capacity);
             // Default constructor; creates a new empty set
-
-            ~Set();
-            // Destructor
 
             bool isEmpty();
             // Returns true if the set is empty, false otherwise

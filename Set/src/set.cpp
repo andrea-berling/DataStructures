@@ -7,7 +7,6 @@ namespace list
     template<typename T>
     Set<T>::Set()
     {
-        elements = new List<T>();
         cardinality = 0;
     }
     // Default constructor; creates a new empty set
@@ -24,9 +23,9 @@ namespace list
     {
         if(!this->isEmpty())
         {
-            for(List<T>* i = elements->head(); !elements->finished(i); i = elements->next(i))
+            for(List_iterator<T> it = elements.begin(); it != elements.end(); it++)
             {
-                if(elements->read(i) == x)
+                if(*it == x)
                     return true;
             }
 
@@ -46,15 +45,16 @@ namespace list
 
         if(!this->isEmpty())
         {
-            List<T>* i = elements->head();
-            while(!elements->finished(i) && !found)
+            List_iterator<T> it = elements.begin();
+            while(!elements.finished(it) && !found)
             {
-                if(elements->read(i) == x)
+                if(*it == x)
                 {
                     e = x;
                     found = true;
                 }
-                i = elements->next(i);
+
+                it++;
             }
         }
 
@@ -67,7 +67,7 @@ namespace list
     {
         if(!this->contains(x))
         {
-            elements->insert(elements->head(), x);
+            elements->insert(x);
             cardinality++;
 
             return true;
@@ -82,9 +82,9 @@ namespace list
     {
         bool done = false;
 
-        for(List<T>* it = elements->head(); (it != elements->next(elements->tail())) && !done; it = elements->next(it))
+        for(List_iterator<T> it = elements.begin(); it != elements.end(); it++)
         {
-            if (elements->read(it) == x)
+            if (*it == x)
             {
                 elements->remove(it);
                 done = true;
@@ -105,7 +105,7 @@ namespace list
     {
         set_iterator<T> it;
 
-        return it.begin(elements);
+        return it.begin(&elements);
     }
     // Returns a reference to the first element in the list
 
@@ -114,7 +114,7 @@ namespace list
     {
         set_iterator<T> it;
 
-        return it.end(elements);
+        return it.end(&elements);
     }
     // Returns a reference to the end fo the list
 
@@ -122,7 +122,7 @@ namespace list
     set_iterator<T>::set_iterator()
     {
         baseList = nullptr;
-        p = nullptr;
+        p = List_iterator<T>(nullptr);
     }
 
     template<typename T>
@@ -136,7 +136,7 @@ namespace list
     set_iterator<T> set_iterator<T>::begin(List<T>* l)
     {
         baseList = l;
-        p = l->head();
+        p = l->begin();
         
         return *this;
     }
@@ -147,7 +147,7 @@ namespace list
         if(baseList != l)
             baseList = l;
 
-        p = l->next(l->tail());
+        p = l->end();
 
         return *this;
     }
@@ -162,8 +162,7 @@ namespace list
     template<typename T>
     set_iterator<T> set_iterator<T>::operator ++() //prefix
     {
-        p = baseList->next(p);
-
+        ++p;
         return p;
     }
 
@@ -172,7 +171,7 @@ namespace list
     {
         set_iterator<T> oldit(*this);
 
-        p = baseList->next(p);
+        ++p;
 
         return oldit;
     }
@@ -180,7 +179,7 @@ namespace list
     template<typename T>
     set_iterator<T> set_iterator<T>::operator --() //prefix
     {
-        p = baseList->next(p);
+        --p;
 
         return p;
     }
@@ -190,7 +189,7 @@ namespace list
     {
         set_iterator<T> oldit(*this);
 
-        p = baseList->prev(p);
+        --p;
 
         return oldit;
     }
@@ -200,7 +199,7 @@ namespace list
     {
         T e = T();
         if(!baseList->finished(p))
-            e = baseList->read(p);
+            e = *p;
         return e;
     }
 
@@ -233,12 +232,6 @@ namespace Hash
         cardinality = 0;
     }
     // Default constructor; creates a new empty set
-
-    template<typename T>
-    Set<T>::~Set()
-    {
-        
-    }
 
     template<typename T>
     bool Set<T>::isEmpty()
