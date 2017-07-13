@@ -1,53 +1,113 @@
 #ifndef LIST_H
 #define LIST_H
 
+/**
+ * Implementation of a parametric bidirectional circular linked list with sentinel
+ */
+
+//Iterator class, used for iteration over the list
+template<typename T>
+class List_iterator;
+
+//Base Node class, used for contaning the data
+template<typename T>
+class ListNode;
+
 template<typename T>
 class List 
 {
 	private:
 
-		List *Next,*Prev;
-		T value;
+        ListNode<T>* first;
 
 	public:
+
+        typedef List_iterator<T> iterator;
 
 		List();
 		// Creates an empty list
 
+		~List();
+		// Destructor
+
         bool empty();
         // Returns true if the sequence is empty
 
-        bool finished(List* p);
-        // Returns true if the list is finished
+        bool finished(iterator p);
+        // Returns true if the iterator p has reached the end (or the beginning) of the list
 
-        List* head();
-        // Returns the position of the first element
+        bool contains(T v);
+        // Returns true if the list contains v
 
-        List* tail();
-        // Returns the position of the last element
+        iterator begin();
+        // Returns an iterator pointing to the first element
 
-        List* next(List* p);
-        // Returns the position of p's next element
+        iterator end();
+        // Returns an iterator pointing to the end of the list
+        // WARNING it does not contain an element, it points to the sentinel
 
-        List* prev(List* p);
-        // Returns the position of p's prev element
-
-        List* insert(List* p,T v);
+        void insert(iterator p,T v);
         // Inserts v in position p
-        // returns the position of the new inserted element 
 
-        List* remove(List* p);
+        void insert(T v);
+        // Inserts v at the beginning
+
+        void remove(iterator& p);
         // removes v in position p
-        // returns the position of p's next element
-        
-        T read(List* p);
-        // returns the element in position p
 
-        void write(List* p,T v);
+        void write(iterator p,T v);
         // writes v in position p
+};
 
-        void destroy();
-        // Frees the memory occupied by the entire list
+template<typename T>
+class List_iterator
+{
+    private:
+
+        friend class List<T>;
+        ListNode<T>* node;
+
+    public:
+
+        typedef List_iterator<T> iterator;
+
+        List_iterator(ListNode<T>* node);
+        // Creates a new List_iterator given a node
+        List_iterator();
+        // Default constructor
+
+        T& operator*();
+        // Returns the element pointed by the iterator
+
+        bool operator==(const iterator & rhs) const;
+        // Returns true if the node pointed by the lhs iterator is the same as the one pointed by rhs
+
+        bool operator!=(const iterator & rhs) const;
+        // Returns !(lhs == rhs)
+        
+        iterator& operator++();
+        // Increments the iterator and returns the new iterator (prefix increment)
+
+        iterator operator++(int);
+        // Increments the iterator and returns the iterator as it was before the increment (postfix increment)
+
+        iterator& operator--();
+        // Decrements the iterator and returns the new iterator (prefix decrement)
+
+        iterator operator--(int);
+        // Decrements the iterator and returns the iterator as it was before the increment (postfix decrement)
+
+};
+
+template<typename T>
+class ListNode
+{
+    private:
+        
+        friend class List_iterator<T>;
+        friend class List<T>;
+        ListNode *next,*prev;
+        T value;
 };
 
 #include "../src/List.cpp"

@@ -5,21 +5,24 @@ using namespace std;
 
 int main()
 {
-	List<int>* l = new List<int>();
+	List<int> l;
+    List<int>::iterator it;
 	for(int i = 0; i < 100; i++)
-		l->insert(l,i);
-	List<int>* i = l->head();
-	while(!l->finished(i))
+		l.insert(i);
+    for(it = l.begin(); it != l.end(); it++)
 	{
-		cout << l->read(i) << " ";
-		i = l->next(i);
+		cout << *it << " ";
+	}
+
+    cout << endl;
+
+    for(it = --l.end(); it != --l.begin(); it--)
+	{
+		cout << *it << " ";
 	}
 	cout << endl;
 
-    for(List<int>* i = l->tail(); !l->finished(i); i = l->prev(i))
-        cout << l->read(i) << " ";
+	for(int i = 0; i < 100; i++)
+        cout << l.contains(i+1) << " " ;
     cout << endl;
-
-    l->destroy();
-
 }
