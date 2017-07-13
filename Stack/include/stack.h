@@ -2,6 +2,10 @@
 #define STACK_H
 #include "../../List/include/List.h"
 
+/**
+ * Implementation of a LinkedList based parametric Stack
+ */
+
 template<typename T>
 class Stack
 {
@@ -11,12 +15,6 @@ class Stack
 
 	public:
 
-		Stack();
-		// Constructs an empty stack
-
-		~Stack();
-		// Destructor
-		
 		bool isEmpty();
 		// returns true if the stack is empty
 

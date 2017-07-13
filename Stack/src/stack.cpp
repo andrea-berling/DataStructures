@@ -3,20 +3,6 @@
 #include "../include/stack.h"
 
 template<typename T>
-Stack<T>::Stack()
-{
-//	A = new List<T>();
-}
-// Constructs an empty stack
-
-template<typename T>
-Stack<T>::~Stack()
-{
-    A.destroy();
-}
-// Destructor
-
-template<typename T>
 bool Stack<T>::isEmpty()
 {
 	return A.empty();
@@ -26,23 +12,30 @@ bool Stack<T>::isEmpty()
 template<typename T>
 void Stack<T>::push(T v)
 {
-	A.insert(A.head(),v);
+	A.insert(A.begin(),v);
 }
 // Pushes v on top of the stack
 
 template<typename T>
 T Stack<T>::pop()
 {
-	T v = A.read(A.head());
-	A.remove(A.head());
-	return v;
+    T item;
+    List_iterator<T> it = A.begin();
+
+    if(!isEmpty())
+    {
+        item = *(A.begin());
+        A.remove(it);
+    }
+
+	return item;
 }
 // Pops and return the element on top of the stack
 
 template<typename T>
 T Stack<T>::top()
 {
-	return A.read(A.head());
+	return *(A.begin());
 }
 // Returns the element on top of the stack
 #endif
