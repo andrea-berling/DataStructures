@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	Queue<int> q;
-	for(int i = 0; i < 10000; i++)
+	for(int i = -9; i < 10; i++)
 		q.enqueue(i);
 	while(!q.isEmpty())
 		cout << q.dequeue() << " ";

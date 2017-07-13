@@ -3,13 +3,6 @@
 #include "../include/queue.h"
 
 template<typename T>
-Queue<T>::~Queue()
-{
-    A.destroy();
-}
-// Destructor
-
-template<typename T>
 bool Queue<T>::isEmpty()
 {
 	return A.empty();
@@ -19,15 +12,16 @@ bool Queue<T>::isEmpty()
 template<typename T>
 void Queue<T>::enqueue(T v)
 {
-	A.insert(&A,v);
+	A.insert(A.end(),v);
 }
 // enqueues v
 
 template<typename T>
 T Queue<T>::dequeue()
 {
-	T t = A.read(A.head());
-    A.remove(A.head());
+    List_iterator<T> it = A.begin();
+	T t = *(A.begin());
+    A.remove(it);
 	return t;
 }
 // dequeues the element at the head of the queue
@@ -35,7 +29,7 @@ T Queue<T>::dequeue()
 template<typename T>
 T Queue<T>::top()
 {
-	return A.read(A.head());
+	return *(A.begin());
 }
 //returns the element at the head of the queue
 

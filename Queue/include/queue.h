@@ -11,9 +11,6 @@ class Queue
 
 	public:
 
-        ~Queue();
-        // Destructor
-
 		bool isEmpty();
 		//returns true if the queue is empty
 	
