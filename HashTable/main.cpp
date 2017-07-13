@@ -121,7 +121,7 @@ int main()
     i.print();
     i = H2.lookup("numero 2");
     i.print();
-    i = H2.lookup("numero 3");
+    i = H2["numero 3"];
     i.print();
 
     H2.remove("numero 1");

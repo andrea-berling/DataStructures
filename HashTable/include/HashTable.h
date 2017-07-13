@@ -3,11 +3,18 @@
 #include <string>
 #include "../../List/include/List.h"
 
+/**
+ * Implementation of a Hashtable based on bucket lists made with Linkedlist
+ */
+
+template<typename K, typename V> class HashList;
+
 template<typename K, typename V>
 class HashPair
 {
     private:
 
+        friend class HashList<K,V>;
         K key;
         V value;
 
@@ -42,7 +49,7 @@ class HashList
 
     public:
 
-        List<HashPair<K,V>>* find(K key);
+        List_iterator<HashPair<K,V>> find(K key);
         // Returns an HashPair given a key if present, null if absent
         
         void insert(K key,V value);
@@ -57,15 +64,12 @@ class HashList
         bool empty();
         // Returns true if the list is empty, false otherwise
 
-        List<HashPair<K,V>>* head();
+        List_iterator<HashPair<K,V>> begin();
 
-        List<HashPair<K,V>>* tail();
+        List_iterator<HashPair<K,V>> end();
 
-        List<HashPair<K,V>>* next(List<HashPair<K,V>>* p);
+        bool finished(List_iterator<HashPair<K,V>> p);
 
-        bool finished(List<HashPair<K,V>>* p);
-
-        HashPair<K,V> read(List<HashPair<K,V>>* p);
 };
 
 template<typename K, typename V>
@@ -87,8 +91,8 @@ class hash_iterator
 
         HashTable<K,V>* baseTable;
         int i;
-        List<HashPair<K,V>>* it;
-        List<HashPair<K,V>>* nextOccurrence();
+        List_iterator<HashPair<K,V>> it;
+        List_iterator<HashPair<K,V>> nextOccurrence();
         
     public:
 
@@ -132,9 +136,15 @@ class HashTable
 
         ~HashTable();
         //Destructor
+        
+        bool contains(K k);
+        //Returns true if the hashtable contains k
 
         V lookup(K k);
         //returns the value being searched if present, nil otherwise
+        
+        V operator [](K k);
+        // same as lookup, with a array like notation
 
         void insert(K key,V value);
         //Inserts the key-value pair into the table
@@ -162,7 +172,7 @@ namespace keyOnly
 
         public:
 
-            List<K>* find(K key);
+            List_iterator<K> find(K key);
             // Returns an HashPair given a key if present, null if absent
             
             void insert(K key);
@@ -177,15 +187,11 @@ namespace keyOnly
             bool empty();
             // Returns true if the list is empty, false otherwise
 
-            List<K>* head();
+            List_iterator<K> begin();
 
-            List<K>* tail();
+            List_iterator<K> end();
 
-            List<K>* next(List<K>* p);
-
-            bool finished(List<K>* p);
-
-            K read(List<K>* p);
+            bool finished(List_iterator<K> p);
 
     };
 
@@ -208,8 +214,8 @@ namespace keyOnly
 
             HashTable<K>* baseTable;
             int i;
-            List<K>* it;
-            List<K>* nextOccurrence();
+            List_iterator<K> it;
+            List_iterator<K> nextOccurrence();
             
         public:
 
@@ -256,6 +262,9 @@ namespace keyOnly
 
             K lookup(K k);
             //returns the value being searched if present, nil otherwise
+            
+            bool contains(K k);
+            // Returns true if the table contains k
 
             void insert(K key);
             //Inserts the key-value pair into the table
@@ -268,5 +277,6 @@ namespace keyOnly
     };
 
 }
+
 #include "../src/HashTable.cpp"
 #endif

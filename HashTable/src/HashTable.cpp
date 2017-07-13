@@ -46,21 +46,21 @@ void HashPair<K,V>::setValue(V v)
 // sets the value
 
 template<typename K, typename V>
-List<HashPair<K,V>>* HashList<K,V>::find(K key)
+List_iterator<HashPair<K,V>> HashList<K,V>::find(K key)
 {
     bool found = false;
-    List<HashPair<K,V>>* e = nullptr;
-    List<HashPair<K,V>>* i = l.head();
+    List_iterator<HashPair<K,V>> e(nullptr);
+    List_iterator<HashPair<K,V>> i = l.begin();
 
     while(!l.finished(i) && !found)
     {
-        if(l.read(i).getKey() == key)
+        if((*i).key == key)
         {
             e = i;
             found = true;
         }
         
-        i = l.next(i);
+        i++;
     }
 
     return e;
@@ -70,16 +70,16 @@ List<HashPair<K,V>>* HashList<K,V>::find(K key)
 template<typename K, typename V>
 void HashList<K,V>::insert(K key,V value)
 {
-    List<HashPair<K,V>>* kv = find(key);
+    List_iterator<HashPair<K,V>> kv = find(key);
     HashPair<K,V> k(key,value);
 
-    if (kv != nullptr)
+    if (kv != List_iterator<HashPair<K,V>>(nullptr))
     {
         l.write(kv,k);
     }
     else
     {
-        l.insert(l.head(),k);
+        l.insert(k);
     }
 }
 // Inserts a key-value pair in the HashList
@@ -87,12 +87,12 @@ void HashList<K,V>::insert(K key,V value)
 template<typename K, typename V>
 V HashList<K,V>::lookup(K key)
 {
-    List<HashPair<K,V>>* kv = find(key);
+    List_iterator<HashPair<K,V>> kv = find(key);
     V e;
 
-    if (kv != nullptr)
+    if (kv != List_iterator<HashPair<K,V>>(nullptr))
     {
-        e = (l.read(kv)).getValue();
+        e = (*kv).value;
     }
 
     return e;
@@ -102,8 +102,8 @@ V HashList<K,V>::lookup(K key)
 template<typename K, typename V>
 void HashList<K,V>::remove(K key)
 {
-    List<HashPair<K,V>>* item = find(key);
-    if(item != nullptr)
+    List_iterator<HashPair<K,V>> item = find(key);
+    if(item != List_iterator<HashPair<K,V>>(nullptr))
         l.remove(item);
 }
 
@@ -114,42 +114,36 @@ bool HashList<K,V>::empty()
 }
 
 template<typename K, typename V>
-List<HashPair<K,V>>* HashList<K,V>::head()
+List_iterator<HashPair<K,V>> HashList<K,V>::begin()
 {
-    return l.head();
+    return l.begin();
 }
 
 template<typename K, typename V>
-List<HashPair<K,V>>* HashList<K,V>::tail()
+List_iterator<HashPair<K,V>> HashList<K,V>::end()
 {
-    return l.tail();
+    return l.end();
 }
 
 template<typename K, typename V>
-List<HashPair<K,V>>* HashList<K,V>::next(List<HashPair<K,V>>* p)
-{
-    return l.next(p);
-}
-
-template<typename K, typename V>
-bool HashList<K,V>::finished(List<HashPair<K,V>>* p)
+bool HashList<K,V>::finished(List_iterator<HashPair<K,V>> p)
 {
     return l.finished(p);
 }
 
 template<typename K, typename V>
-List<HashPair<K,V>>* hash_iterator<K,V>::nextOccurrence()
+List_iterator<HashPair<K,V>> hash_iterator<K,V>::nextOccurrence()
 {
     i++;
 
-    it = nullptr;
+    it = List_iterator<HashPair<K,V>>(nullptr);
 
-    while(i < baseTable->m && it == nullptr)
+    while(i < baseTable->m && it == List_iterator<HashPair<K,V>>(nullptr))
     {
         if(baseTable->entries[i].empty())
             i++;
         else
-            it = baseTable->entries[i].head();
+            it = baseTable->entries[i].begin();
     }
 
     return it;
@@ -160,7 +154,7 @@ hash_iterator<K,V>::hash_iterator()
 {
     baseTable = nullptr;
     i = -1;
-    it = nullptr;
+    it = List_iterator<HashPair<K,V>>(nullptr);
 }
 
 template<typename K, typename V>
@@ -168,7 +162,7 @@ hash_iterator<K,V>::hash_iterator(HashTable<K,V>* table)
 {
     baseTable = table;
     i = -1;
-    it = nullptr;
+    it = List_iterator<HashPair<K,V>>(nullptr);
 }
 
 template<typename K, typename V>
@@ -209,14 +203,14 @@ hash_iterator<K,V> hash_iterator<K,V>::end()
 {
     hash_iterator<K,V> ret(*this);
     ret.i = baseTable->m;
-    ret.it = nullptr;
+    ret.it = List_iterator<HashPair<K,V>>(nullptr);
     return ret;
 }
 
 template<typename K, typename V>
 hash_iterator<K,V> hash_iterator<K,V>::operator ++() //prefix
 {
-    it = baseTable->entries[i].next(it);
+    it++;
 
     if (baseTable->entries[i].finished(it))
     {
@@ -239,14 +233,7 @@ hash_iterator<K,V> hash_iterator<K,V>::operator ++( int ) //postfix
 template<typename K, typename V>
 HashPair<K,V> hash_iterator<K,V>::operator *()
 {
-    
-    return baseTable->entries[i].read(it);
-}
-
-template<typename K, typename V>
-HashPair<K,V> HashList<K,V>::read(List<HashPair<K,V>>* p)
-{
-    return l.read(p);
+    return *it;
 }
 
 template<typename K, typename V>
@@ -276,6 +263,28 @@ V HashTable<K,V>::lookup(K k)
     return value;
 }
 //returns the value being searched if present, nil otherwise
+
+template<typename K,typename V>
+bool HashTable<K,V>::contains(K k)
+{
+    int i = Hash(hash<K>()(k));
+    if(entries[i].empty())
+        return false;
+    else
+    {
+        if(entries[i].find(k) == List_iterator<HashPair<K,V>>(nullptr))
+            return false;
+        else
+            return true;
+    }
+}
+//
+
+template<typename K,typename V>
+V HashTable<K,V>::operator [](K k)
+{
+    return lookup(k);
+}
 
 template<typename K, typename V>
 void HashTable<K,V>::insert(K key,V value)
@@ -324,24 +333,24 @@ namespace keyOnly
 {
 
     template<typename K>
-    List<K>* HashList<K>::find(K key)
+    List_iterator<K> HashList<K>::find(K key)
     {
         bool found = false;
-        List<K>* e = nullptr;
+        List_iterator<K> e = List_iterator<K>(nullptr);
 
         if(!l.empty())
         {
-            List<K>* i = l.head();
+            List_iterator<K> i = l.begin();
 
             while(!l.finished(i) && !found)
             {
-                if(l.read(i) == key)
+                if(*i == key)
                 {
                     e = i;
                     found = true;
                 }
                 
-                i = l.next(i);
+                i++;
             }
         }
 
@@ -352,11 +361,11 @@ namespace keyOnly
     template<typename K>
     void HashList<K>::insert(K key)
     {
-        List<K>* k = find(key);
+        List_iterator<K> k = find(key);
 
-        if (k == nullptr)
+        if (k == List_iterator<K>(nullptr))
         {
-            l.insert(l.head(),key);
+            l.insert(key);
         }
         else
         {
@@ -369,11 +378,11 @@ namespace keyOnly
     template<typename K>
     K HashList<K>::lookup(K key)
     {
-        List<K>* k = find(key);
+        List_iterator<K> k = find(key);
         K e;
 
-        if (k != nullptr)
-            e = l.read(k);
+        if (k != List_iterator<K>(nullptr))
+            e = *k;
 
         return e;
     }
@@ -382,8 +391,8 @@ namespace keyOnly
     template<typename K>
     void HashList<K>::remove(K key)
     {
-        List<K>* item = find(key);
-        if(item != nullptr)
+        List_iterator<K> item = find(key);
+        if(item != List_iterator<K>(nullptr))
             l.remove(item);
     }
 
@@ -394,48 +403,36 @@ namespace keyOnly
     }
 
     template<typename K>
-    List<K>* HashList<K>::head()
+    List_iterator<K> HashList<K>::begin()
     {
-        return l.head();
+        return l.begin();
     }
 
     template<typename K>
-    List<K>* HashList<K>::tail()
+    List_iterator<K> HashList<K>::end()
     {
-        return l.tail();
+        return l.end();
     }
 
     template<typename K>
-    List<K>* HashList<K>::next(List<K>* p)
-    {
-        return l.next(p);
-    }
-
-    template<typename K>
-    bool HashList<K>::finished(List<K>* p)
+    bool HashList<K>::finished(List_iterator<K> p)
     {
         return l.finished(p);
     }
 
     template<typename K>
-    K HashList<K>::read(List<K>* p)
-    {
-        return l.read(p);
-    }
-
-    template<typename K>
-    List<K>* hash_iterator<K>::nextOccurrence()
+    List_iterator<K> hash_iterator<K>::nextOccurrence()
     {
         i++;
 
-        it = nullptr;
+        it = List_iterator<K>(nullptr);
 
-        while(i < baseTable->m && it == nullptr)
+        while(i < baseTable->m && it == List_iterator<K>(nullptr))
         {
             if(baseTable->entries[i].empty())
                 i++;
             else
-                it = baseTable->entries[i].head();
+                it = baseTable->entries[i].begin();
         }
 
         return it;
@@ -446,7 +443,7 @@ namespace keyOnly
     {
         baseTable = nullptr;
         i = -1;
-        it = nullptr;
+        it = List_iterator<K>(nullptr);
     }
 
     template<typename K>
@@ -454,7 +451,7 @@ namespace keyOnly
     {
         baseTable = table;
         i = -1;
-        it = nullptr;
+        it = List_iterator<K>(nullptr);
     }
 
     template<typename K>
@@ -495,14 +492,14 @@ namespace keyOnly
     {
         hash_iterator<K> ret(*this);
         ret.i = baseTable->m;
-        ret.it = nullptr;
+        ret.it = List_iterator<K>(nullptr);
         return ret;
     }
 
     template<typename K>
     hash_iterator<K> hash_iterator<K>::operator ++() //prefix
     {
-        it = baseTable->entries[i].next(it);
+        it++;
 
         if (baseTable->entries[i].finished(it))
         {
@@ -526,7 +523,7 @@ namespace keyOnly
     K hash_iterator<K>::operator *()
     {
         
-        return baseTable->entries[i].read(it);
+        return *it;
     }
 
     template<typename K>
@@ -554,7 +551,7 @@ namespace keyOnly
     template<typename K>
     K HashTable<K>::lookup(K k)
     {
-        K key;
+        K key = K();
         int i = Hash(hash<K>()(k));
 
         if (!entries[i].empty())
@@ -563,6 +560,21 @@ namespace keyOnly
         return key;
     }
     //returns the value being searched if present, nil otherwise
+
+    template<typename K>
+    bool HashTable<K>::contains(K k)
+    {
+        int i = Hash(hash<K>()(k));
+        if(entries[i].empty())
+            return false;
+        else
+        {
+            if(entries[i].find(k) == List_iterator<K>(nullptr))
+                return false;
+            else
+                return true;
+        }
+    }
 
     template<typename K>
     void HashTable<K>::insert(K key)
@@ -591,5 +603,6 @@ namespace keyOnly
     }
     //Hash function
 }
+
 #endif
 
