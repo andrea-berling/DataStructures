@@ -4,26 +4,26 @@
 
 using namespace std;
 
-template<typename K, typename V>
-void printTree(RBTree<K,V>* t);
+template<typename T>
+void printTree(RBTree<T>& t);
 
-template<typename K, typename V>
-void visit_by_level(RBTree<K,V>* t);
+template<typename T>
+void visit_by_level(RBTree<T>& t);
 
-template<typename K, typename V>
-int height(RBTree<K,V>* t);
+template<typename T>
+int height(RBTree<T>& t);
 
 int main()
 {
-    RBTree<int,int> a;
+    RBTree<int> a;
 
     for (int j = 0; j < 20; j++)
     {
-        a.insertNode(j,j);
+        a.insertNode(j);
     }
 
     printTree(a);
-    printTree(&a);
+    cout << "The height of the tree is " << height<int>(a) << endl;
 
     for (int j = 0; j < 20; j++)
     {
@@ -31,15 +31,13 @@ int main()
     }
 
     printTree(a);
-    printTree(&a);
 
     for (int j = 0; j < 20; j++)
     {
-        a.insertNode(j,j);
+        a.insertNode(j);
     }
 
     printTree(a);
-    printTree(&a);
     
     for (int j = 0; j < 20; j++)
     {
@@ -50,45 +48,43 @@ int main()
 
 }
 
-template<typename K, typename V>
-void printTree(RBTree<K,V>* t)
+template<typename T>
+void printTree(RBTree<T>& t)
 {
-    if (t != nullptr)
+    if (t.getRoot() != nullptr)
     {
-        RBNode<K,V> *i;
-        
-        i = t->min();
+        RBNode<T> *i = t.min();
 
         while(i != nullptr)
         {
             cout << i->getKey() << " ";
-            i = t->successorNode(i);
+            i = t.successorNode(i);
         }
 
         cout << endl;
     }
 }
 
-template<typename K,typename V>
-void visit_by_level(RBNode<K,V>* t, int spaces);
+template<typename T>
+void visit_by_level(RBNode<T>* t, int spaces);
 
-template<typename K,typename V>
-void visit_by_level(RBTree<K,V>* t)
+template<typename T>
+void visit_by_level(RBTree<T>& t)
 {
-    if(t != nullptr && t->getRoot() != nullptr)
+    if(t.getRoot != nullptr)
     {
-        visit_by_level(t->getRoot(),0);
+        visit_by_level(t.getRoot(),0);
     }
 }
 
-template<typename K,typename V>
-void visit_by_level(RBNode<K,V>* t, int spaces)
+template<typename T>
+void visit_by_level(RBNode<T>* t, int spaces)
 {
-    Queue<RBNode<K,V>*> q;
+    Queue<RBNode<T>*> q;
     q.enqueue(t);
     while(!q.isEmpty())
     {
-        RBNode<K,V>* u = q.dequeue();
+        RBNode<T>* u = q.dequeue();
         cout << u->getKey() << " " ;
         if(u->getLeft() != nullptr)
             q.enqueue(u->getLeft());
@@ -98,8 +94,8 @@ void visit_by_level(RBNode<K,V>* t, int spaces)
     cout << endl;
 }
 
-template<typename K, typename V>
-int height(RBNode<K,V>* t)
+template<typename T>
+int height(RBNode<T>* t)
 {
     if(t == nullptr)
         return 0;
@@ -112,37 +108,8 @@ int height(RBNode<K,V>* t)
     }
 }
 
-template<typename K, typename V>
-int height(RBTree<K,V>* t)
+template<typename T>
+int height(RBTree<T>& t)
 {
-    return height(t->getRoot());
+    return height(t.getRoot());
 }
-/*BST<int,int>* removeNode(BST<int,int>* T, int x)
-{
-    BST<int,int>* u = T->lookupNode(x);
-
-    if (u != nullptr)
-    {
-        if (u->left() != nullptr && u->right() != nullptr)
-        {
-            BST<int,int>* s = u->right();
-            while (s->left() != nullptr)
-                s->setLeft(s);
-            u->setKey(s->getKey());
-            u->setValue(s->getValue());
-            u = s;
-            x = s->getKey();
-        }
-        BST<int,int>* t;
-        if (u->left() != nullptr && u->right() == nullptr)
-            t = u->left();
-        else
-            t = u->right();
-        link(u->getParent(), t, x);
-        if (u->getParent() == nullptr)
-            T = t;
-        free(u);
-    }
-
-    return T;
-}*/
