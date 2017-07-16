@@ -53,8 +53,6 @@ namespace std
 
 int main()
 {
-    using namespace Hash;
-
     Hash::Set<Integer> a(193);
 
     for(int i = 0; i < 10; i++)
@@ -70,5 +68,29 @@ int main()
     for(Hash::set_iterator<Integer> it = a.begin(); it != a.end(); it++)
         cout << *it << " ";
 
+    cout << endl;
+
+    Tree::Set<int> s;
+    for(int i = 0; i < 100; i++)
+    {
+        s.insert(i);
+    }
+
+    for(Tree::set_iterator<int> it = s.begin(); it != s.end(); it++)
+    {
+        cout << *it << " ";
+    }
+    cout << endl;
+
+    for(Tree::set_iterator<int> it = s.begin(); it != s.end(); it++)
+    {
+        s.remove(*it);
+    }
+
+    for(Tree::set_iterator<int> it = s.begin(); it != s.end(); it++)
+    {
+        cout << *it << " ";
+        cout << "BELLAA";
+    }
     cout << endl;
 }
