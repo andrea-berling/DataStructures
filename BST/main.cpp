@@ -1,6 +1,8 @@
 #include "include/bst.h"
 #include "../Queue/include/queue.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -17,34 +19,29 @@ int main()
 {
     RBTree<int> a;
 
-    for (int j = 0; j < 20; j++)
+    srand(time(0));
+    for (int j = 0; j < 100000; j++)
     {
-        a.insertNode(j);
+        a.insertNode(rand()% 100000);
     }
 
-    printTree(a);
+    //printTree(a);
     cout << "The height of the tree is " << height<int>(a) << endl;
 
-    for (int j = 0; j < 20; j++)
+    RBNode<int>* it = a.min();
+
+    while(it != nullptr)
     {
-        a.removeNode(j);
+        int rem = it->getKey();
+        it = a.successorNode(it);
+        a.removeNode(rem);
     }
 
-    printTree(a);
+    //printTree(a);
 
-    for (int j = 0; j < 20; j++)
-    {
-        a.insertNode(j);
-    }
-
-    printTree(a);
+    //printTree(a);
     
-    for (int j = 0; j < 20; j++)
-    {
-        a.removeNode(j);
-    }
-
-    printTree(a);
+    //printTree(a);
 
 }
 
