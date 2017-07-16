@@ -227,7 +227,7 @@ namespace Hash
     using keyOnly::HashTable;
 
     template<typename T>
-    Set<T>::Set(int capacity):elements(HashTable<T>(capacity))
+    Set<T>::Set(int capacity):elements(capacity)
     {
         cardinality = 0;
     }

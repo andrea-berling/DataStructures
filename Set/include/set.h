@@ -94,31 +94,6 @@ namespace list
 namespace Hash
 {
 
-/*    template<typename T> class Set;
-    template<typename T> class set_iterator;
-
-    template<typename T>
-    bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2);
-
-    template<typename T>
-    bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2);
-
-    template<typename T>
-    class set_iterator : public keyOnly::hash_iterator<T>
-    {
-        public:
-
-            set_iterator();
-
-            set_iterator(Set<T>* s);
-
-            set_iterator(const set_iterator& it);
-
-            set_iterator(const keyOnly::hash_iterator<T>& it);
-
-    };
-    */
-
     template<typename T>
     using set_iterator = typename keyOnly::hash_iterator<T>;
 
