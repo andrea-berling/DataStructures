@@ -378,9 +378,9 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
         if (t == p->left)
         {
             RBNode<T>* f = p->right;
-            RBNode<T>* ns = f->left;
-            RBNode<T>* nd = f->right;
-            if (f->color == RED)
+            RBNode<T>* ns = f == nullptr ? nullptr : f->left;
+            RBNode<T>* nd = f == nullptr ? nullptr : f->right;
+            if (f != nullptr && f->color == RED)
             {
                 p->color = RED;
                 f->color = BLACK;
@@ -388,9 +388,10 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
             }
             else
             {
-                if ((ns == nd && nd == nullptr) || (nd != nullptr && (nd->color == BLACK)) || (ns != nullptr && ns->color == BLACK) || (ns != nullptr && ns != nullptr) && (nd->color == BLACK))
+                if((ns == nullptr || ns->color == BLACK) && (nd == nullptr || nd->color == BLACK))
                 {
-                    f->color = RED;
+                    if(f != nullptr)
+                        f->color = RED;
                     t = p;
                 }
                 else if ((ns != nullptr && ns->color == RED) && (nd == nullptr || nd->color == BLACK))
@@ -399,7 +400,7 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
                     f->color = RED;
                     rotateRight(f);
                 }
-                else if (nd->color == RED)
+                else if (nd != nullptr && nd->color == RED)
                 {
                     f->color = p->color;
                     p->color = BLACK;
@@ -412,37 +413,35 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
         else
         {
             RBNode<T>* f = p->left;
-            RBNode<T>* ns = f->right;
-            RBNode<T>* nd = f->left;
-            if (f != nullptr)
+            RBNode<T>* ns = f == nullptr ? nullptr : f->right;
+            RBNode<T>* nd = f == nullptr ? nullptr : f->left;
+            if (f != nullptr && f->color == RED)
             {
-                if (f->color == RED)
+                p->color = RED;
+                f->color = BLACK;
+                rotateRight(p);
+            }
+            else
+            {
+                if((ns == nullptr || ns->color == BLACK) && (nd == nullptr || nd->color == BLACK))
                 {
-                    p->color = RED;
-                    f->color = BLACK;
-                    rotateRight(p);
+                    if(f != nullptr)
+                        f->color = RED;
+                    t = p;
                 }
-                else
+                else if ((ns != nullptr && ns->color == RED) && (nd == nullptr || nd->color == BLACK))
                 {
-                    if ((ns == nd && nd == nullptr) || (nd != nullptr && (nd->color == BLACK)) || (ns != nullptr && ns->color == BLACK) || (ns != nullptr && ns != nullptr) && (nd->color == BLACK))
-                    {
-                        f->color = RED;
-                        t = p;
-                    }
-                    else if ((ns != nullptr && ns->color == RED) && (nd == nullptr || nd->color == BLACK))
-                    {
-                        ns->color = BLACK;
-                        f->color = RED;
-                        rotateLeft(f);
-                    }
-                    else if (nd->color == RED)
-                    {
-                        f->color = p->color;
-                        p->color = BLACK;
-                        nd->color = BLACK;
-                        rotateRight(p);
-                        t = root;
-                    }
+                    ns->color = BLACK;
+                    f->color = RED;
+                    rotateLeft(f);
+                }
+                else if (nd != nullptr && nd->color == RED)
+                {
+                    f->color = p->color;
+                    p->color = BLACK;
+                    nd->color = BLACK;
+                    rotateRight(p);
+                    t = root;
                 }
             }
         }
