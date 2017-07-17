@@ -1,114 +1,128 @@
 #ifndef TREE_CPP
 #define TREE_CPP
 #include "../include/tree.h"
+#include "../../Queue/include/queue.h"
 
 template<typename T>
 Tree<T>::Tree()
 {
-	Parent = nullptr;	
-	Child = nullptr;	
-	Sibling = nullptr;	
+    root = new TreeNode<T>();
 }
 
 template<typename T>
 Tree<T>::Tree(T v)
 {
-	value = v;
-	Parent = nullptr;	
-	Child = nullptr;	
-	Sibling = nullptr;	
+    root = new TreeNode<T>(v);
 }
 // Constructs a tree with a single node containing v
 
 template<typename T>
-T Tree<T>::read()
+Tree<T>::~Tree()
+{
+    if(root != nullptr)
+    {
+        deleteTree(root);
+    }
+}
+// Constructs a tree with a single node containing v
+
+template<typename T>
+TreeNode<T>* Tree<T>::getRoot()
+{
+    return root;
+}
+
+template<typename T>
+TreeNode<T>::TreeNode() : parent(nullptr),child(nullptr),sibling(nullptr)
+{ }
+
+template<typename T>
+TreeNode<T>::TreeNode(T value) : parent(nullptr),child(nullptr),sibling(nullptr),value(value)
+{ }
+
+template<typename T>
+T TreeNode<T>::getValue()
 {
 	return value;
 }
 // Retunrns the value of the current node
 
 template<typename T>
-Tree<T>* Tree<T>::parent()
+TreeNode<T>* TreeNode<T>::getParent()
 {
-	return Parent;
+	return parent;
 }
 // Returns the Parent; nullptr if absent
 
 template<typename T>
-Tree<T>* Tree<T>::leftmostChild()
+TreeNode<T>* TreeNode<T>::getChild()
 {
-	return Child;
+	return child;
 }
 // Returns the leftmost Child
 
 template<typename T>
-Tree<T>* Tree<T>::rightSibling()
+TreeNode<T>* TreeNode<T>::getSibling()
 {
-	return Sibling;
+	return sibling;
 }
 // Returns the next Sibling
 
 template<typename T>
-void Tree<T>::insertChild(Tree<T>* t)
+void TreeNode<T>::insertChild(TreeNode<T>* t)
 {
-	if (t->Parent == nullptr)
+	if (t->parent == nullptr)
 	{
-		t->Sibling = Child;
-		t->Parent = this;
-		Child = t;
+		t->sibling = child;
+		t->parent = this;
+		child = t;
 	}
 }
 // Inserts t subtree as the leftmost Child of the current node
 // Precondition: t->Parent == nullptr 
 
 template<typename T>
-void Tree<T>::insertSibling(Tree<T>* t)
+void TreeNode<T>::insertSibling(TreeNode<T>* t)
 {
-	if (t->Parent == nullptr)
+	if (t->parent == nullptr)
 	{
-		t->Parent = Parent;
-		t->Sibling = Sibling;
-		Sibling = t;
+		t->parent = parent;
+		t->sibling = sibling;
+		sibling = t;
 	}
 }
 // Inserts t subtree as the next Sibling of the current node
 // Precondition: t->Parent == nullptr 
 
 template<typename T>
-void Tree<T>::deleteChild()
+void TreeNode<T>::deleteChild()
 {
-	Tree<T>* newChild = Child->rightSibling();
-	deleteTree(Child);
-	Child = newChild;
+	TreeNode<T>* newChild = child->getSibling();
+	deleteTree(child);
+	child = newChild;
 }
 // Deletes the subtree that is the leftmost Child of the current node
 
 template<typename T>
-void Tree<T>::deleteSibling()
+void TreeNode<T>::deleteSibling()
 {
-	Tree<T>* newSibling = Sibling->rightSibling();
-	deleteTree(Sibling);
-	Sibling = newSibling;
+	TreeNode<T>* newSibling = sibling->getSibling();
+	deleteTree(sibling);
+	sibling = newSibling;
 }
 // Deletes the subtree that is the next Sibling of the current node
 
 template<typename T>
-void deleteTree(Tree<T>* t)
+void deleteTree(TreeNode<T>* t)
 {
-	Tree<T>* u = t->leftmostChild();
+	TreeNode<T>* u = t->getChild();
 	while (u != nullptr)
 	{
-		Tree<T>* next = u->rightSibling();
+		TreeNode<T>* next = u->getSibling();
 		deleteTree(u);
 		u = next;
 	}
 	delete t;
-}
-
-template<typename T>
-void Tree<T>::destroy()
-{
-    deleteChild();
 }
 
 #endif

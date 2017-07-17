@@ -1,15 +1,14 @@
 #ifndef TREE_H
 #define TREE_H
 
+template<typename T> class TreeNode;
+
 template<typename T>
 class Tree
 {
 	private:
 
-		T value;
-		Tree *Parent,*Child,*Sibling;
-		template<typename U>
-		friend void deleteTree(Tree<U>* t);
+        TreeNode<T>* root;
 
 	public:
 
@@ -19,23 +18,49 @@ class Tree
 		Tree(T v);
 		// Constructs a tree with a single node containing v
 		
-		T read();
-		// Retunrns the value of the current node
-		
-		Tree* parent();
-		// Returns the parent; nullptr if absent
+        ~Tree();
+        // Destructor
 
-		Tree* leftmostChild();
-		// Returns the leftmost child
+        TreeNode<T>* getRoot();
+        // getter for the root
+};
 
-		Tree* rightSibling();
-		// Returns the next sibling
+template<typename T>
+class TreeNode
+{
+    private:
 
-		void insertChild(Tree* t);
+        friend class Tree<T>;
+        TreeNode *parent,*child,*sibling;
+        T value;
+		template<typename U>
+		friend void deleteTree(Tree<U>* t);
+
+    public:
+
+        TreeNode();
+        // Default constructor
+
+        TreeNode(T value);
+        // Creates a node given a value
+
+        T getValue();
+        // Value getter
+
+        TreeNode* getParent();
+        // Getter for the parent of the node
+
+        TreeNode* getChild();
+        // Getter for the left child of the node
+
+        TreeNode* getSibling();
+        // Getter for the right child of the node
+
+		void insertChild(TreeNode* t);
 		// Inserts t subtree as the leftmost child of the current node
 		// Precondition: t->parent == nullptr 
 
-		void insertSibling(Tree* t);
+		void insertSibling(TreeNode* t);
 		// Inserts t subtree as the next sibling of the current node
 		// Precondition: t->parent == nullptr 
 
@@ -45,8 +70,7 @@ class Tree
 		void deleteSibling();
 		// Deletes the subtree that is the next sibling of the current node
 
-        void destroy();
-        // Frees the memory occupied by the tree
+
 };
 
 #include "../src/tree.cpp"

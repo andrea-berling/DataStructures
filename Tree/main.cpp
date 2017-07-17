@@ -6,103 +6,128 @@
 using namespace std;
 
 template<typename T>
-void preVisit(Tree<T> t);
+void preVisit(Tree<T>& t);
 
 template<typename T>
-void postVisit(Tree<T> t);
+void postVisit(Tree<T>& t);
 
 template<typename T>
-void inVisit(Tree<T> t,int i);
+void inVisit(Tree<T>& t,int i);
 
 template<typename T>
-void levelVisit(Tree<T> t);
+void levelVisit(Tree<T>& t);
 
 int main()
 {
-	Tree<string> t1("+");
-	Tree<string> t2("x");
-	Tree<string> t3("*");
-	Tree<string> t4("f");
-	Tree<string> t5("5");
-	Tree<string> t6("2");
-	Tree<string> t7("y");
-	Tree<string> t8("-");
-	Tree<string> t9("z");
-	t1.insertChild(&t2);
-	t2.insertSibling(&t3);
-	t3.insertChild(&t4);
-	t4.insertSibling(&t5);
-	t4.insertChild(&t6);
-	t6.insertSibling(&t7);
-	t7.insertSibling(&t8);
-	t8.insertChild(&t9);
-	preVisit(t1);
+	Tree<string> T("+");
+	TreeNode<string>* t2 = new TreeNode<string>("x");
+	TreeNode<string>* t3 = new TreeNode<string>("*");
+	TreeNode<string>* t4 = new TreeNode<string>("f");
+	TreeNode<string>* t5 = new TreeNode<string>("5");
+	TreeNode<string>* t6 = new TreeNode<string>("2");
+	TreeNode<string>* t7 = new TreeNode<string>("y");
+	TreeNode<string>* t8 = new TreeNode<string>("-");
+	TreeNode<string>* t9 = new TreeNode<string>("z");
+	T.getRoot()->insertChild(t2);
+	t2->insertSibling(t3);
+	t3->insertChild(t4);
+	t4->insertSibling(t5);
+	t4->insertChild(t6);
+	t6->insertSibling(t7);
+	t7->insertSibling(t8);
+	t8->insertChild(t9);
+	preVisit(T);
 	cout << endl;
-	postVisit(t1);
+	postVisit(T);
 	cout << endl;
-	inVisit(t1,1);
+	inVisit(T,1);
 	cout << endl;
-	levelVisit(t1);
+	levelVisit(T);
 	cout << endl;
 }
 
 template<typename T>
-void preVisit(Tree<T> t)
+void preVisit(TreeNode<T>* n)
 {
-    cout << t.read() << " ";
-    Tree<T>* u = t.leftmostChild();
+    cout << n->getValue() << " ";
+    TreeNode<T>* u = n->getChild();
     while (u != nullptr)
     {
-	preVisit(*u);
-	u = u->rightSibling();
+        preVisit(u);
+        u = u->getSibling();
     }
 }
 
 template<typename T>
-void postVisit(Tree<T> t)
+void preVisit(Tree<T>& t)
 {
-    Tree<T>* u = t.leftmostChild();
-    while (u != nullptr)
-    {
-	postVisit(*u);
-	u = u->rightSibling();
-    }
-    cout << t.read() << " ";
+    if(t.getRoot() != nullptr)
+        preVisit(t.getRoot());
 }
 
 template<typename T>
-void inVisit(Tree<T> t,int i)
+void postVisit(Tree<T>& t)
+{
+    if(t.getRoot() != nullptr)
+        postVisit(t.getRoot());
+}
+
+template<typename T>
+void postVisit(TreeNode<T>* t)
+{
+    TreeNode<T>* u = t->getChild();
+    while (u != nullptr)
+    {
+        postVisit(u);
+        u = u->getSibling();
+    }
+    cout << t->getValue() << " ";
+}
+
+template<typename T>
+void inVisit(Tree<T>& t,int i)
+{
+    if(t.getRoot() != nullptr)
+        inVisit(t.getRoot(),i);
+}
+
+template<typename T>
+void inVisit(TreeNode<T>* t,int i)
 {
     int k = 0;
-    Tree<T>* u = t.leftmostChild();
+    TreeNode<T>* u = t->getChild();
     while ((u != nullptr) && (k < i))
     {
-	inVisit(*u,i);
-	u = u->rightSibling();
-	k++;
+        inVisit(u,i);
+        u = u->getSibling();
+        k++;
     }
-    cout << t.read() << " ";
+    cout << t->getValue() << " ";
     while (u != nullptr)
     {
-	inVisit(*u,i);
-	u = u->rightSibling();
+        inVisit(u,i);
+        u = u->getSibling();
     }
 }
 
 template<typename T>
-void levelVisit(Tree<T> t)
+void levelVisit(Tree<T>& t)
 {
-   Queue<Tree<T>*> q; 
-   q.enqueue(&t);
-   while (!q.isEmpty())
-   {
-      Tree<T>* u = q.dequeue(); 
-      cout << u->read() << " ";
-      u = u->leftmostChild();
-      while (u != nullptr)
-      {
-	 q.enqueue(u);
-	 u = u->rightSibling();
-      }
-   }
+    if(t.getRoot() != nullptr)
+    {
+        Queue<TreeNode<T>*> q; 
+        q.enqueue(t.getRoot());
+        while (!q.isEmpty())
+        {
+            TreeNode<T>* u = q.dequeue(); 
+            cout << u->getValue() << " ";
+            u = u->getChild();
+            while (u != nullptr)
+            {
+                q.enqueue(u);
+                u = u->getSibling();
+            }
+        }
+
+    }
 }
