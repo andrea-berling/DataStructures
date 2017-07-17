@@ -39,31 +39,6 @@ namespace list
     // Returns true if the set contains x, false otherwise
 
     template<typename T>
-    T Set<T>::lookup(T x)
-    {
-        T e = T();
-        bool found = false;
-
-        if(!this->isEmpty())
-        {
-            List_iterator<T> it = elements.begin();
-            while(!elements.finished(it) && !found)
-            {
-                if(*it == x)
-                {
-                    e = x;
-                    found = true;
-                }
-
-                it++;
-            }
-        }
-
-        return e;
-    }
-    // Return a pointer to the element x if present, nil otherwise
-
-    template<typename T>
     bool Set<T>::insert(T x)
     {
         if(!this->contains(x))
@@ -254,13 +229,6 @@ namespace Hash
     // Returns true if the set contains x, false otherwise
 
     template<typename T>
-    T Set<T>::lookup(T x)
-    {
-        return elements.lookup(x);
-    }
-    // Return a pointer to the element x if present, nil otherwise
-
-    template<typename T>
     bool Set<T>::insert(T x)
     {
         if (!contains(x))
@@ -336,6 +304,15 @@ namespace Tree
         if(baseTree != &t)
             baseTree = &t;
         p = t.min();
+        return *this;
+    }
+
+    template<typename T>
+    set_iterator<T> set_iterator<T>::last(RBTree<T>& t)
+    {
+        if(baseTree != &t)
+            baseTree = &t;
+        p = t.max();
         return *this;
     }
 
@@ -423,13 +400,6 @@ namespace Tree
     // Returns true if the set contains x, false otherwise
 
     template<typename T>
-    T Set<T>::lookup(T x)
-    {
-        return (elements.lookupNode(x))->getValue();
-    }
-    // Return a pointer to the element x if present, nil otherwise
-
-    template<typename T>
     bool Set<T>::insert(T x)
     {
         if(!contains(x))
@@ -470,6 +440,13 @@ namespace Tree
         return it.begin(elements);
     }
     // Returns a reference to the first element in the list
+
+    template<typename T>
+    set_iterator<T> Set<T>::last()
+    {
+        set_iterator<T> it;
+        return it.last(elements);
+    }
 
     template<typename T>
     set_iterator<T> Set<T>::end()

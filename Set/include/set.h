@@ -70,9 +70,6 @@ namespace list
             bool contains(T x);
             // Returns true if the set contains x, false otherwise
 
-            T lookup(T x);
-            // Return a pointer to the element x if present, nil otherwise
-            
             bool insert(T x);
             // Returns true if x is not in the element and is successfully inserted; false if present
 
@@ -120,9 +117,6 @@ namespace Hash
             bool contains(T x);
             // Returns true if the set contains x, false otherwise
 
-            T lookup(T x);
-            // Return a pointer to the element x if present, nil otherwise
-            
             bool insert(T x);
             // Returns true if x is not in the element and is successfully inserted; false if present
 
@@ -169,6 +163,8 @@ namespace Tree
 
             set_iterator begin(RBTree<T>& t);
 
+            set_iterator last(RBTree<T>& t);
+
             set_iterator end(RBTree<T>& t);
 
             void operator =(const set_iterator& rightside);
@@ -209,9 +205,6 @@ namespace Tree
             bool contains(T x);
             // Returns true if the set contains x, false otherwise
 
-            T lookup(T x);
-            // Return a pointer to the element x if present, nil otherwise
-            
             bool insert(T x);
             // Returns true if x is not in the element and is successfully inserted; false if present
 
@@ -225,8 +218,11 @@ namespace Tree
             set_iterator<T> begin();
             // Returns a reference to the first element in the list
 
+            set_iterator<T> last();
+            // Returns a reference to the last element of the set
+            
             set_iterator<T> end();
-            // Returns a reference to the end fo the list
+            // Returns a reference to the end of the list
             
     };
 }
