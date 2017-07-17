@@ -1,8 +1,6 @@
 #include "include/bst.h"
 #include "../Queue/include/queue.h"
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 
@@ -23,34 +21,30 @@ int height(RBTree<T>& t);
 
 int main()
 {
-    RBTree<int> a(4);
+    RBTree<int> a;
 
-    srand(time(0));
     
-    for (int j = 0; j < 10000; j++)
+    for (int i = 0; i < 10; i++)
     {
-        int i = rand() % 10000 + 1;
         a.insertNode(i);
     }
     
+    cout << "Visit by order of keys: ";
+    listTree(a);
+    cout << "Visit by levels: ";
+    visit_by_level(a);
+    cout << "Previsit with colors: " << endl;
+    printTree(a);
+    cout << "The height of the tree is " << height<int>(a) << endl;
 
-    //listTree(a);
-    //cout << "The height of the tree is " << height<int>(a) << endl;
-
-    RBNode<int>* it = a.max();
+    RBNode<int>* it = a.min();
 
     while(it != nullptr)
     {
         int rem = it->getKey();
-        it = a.predecessorNode(it);
-      //  if(a.getRoot() != nullptr && rem == a.getRoot()->getKey())
-     //       cout << "Holy shit" << endl;
+        it = a.successorNode(it);
         a.removeNode(rem);
     }
-
-    cout << "HELLO" << endl;
-
-    printTree(a);
 }
 
 template<typename T>
@@ -76,7 +70,7 @@ void visit_by_level(RBNode<T>* t, int spaces);
 template<typename T>
 void visit_by_level(RBTree<T>& t)
 {
-    if(t.getRoot != nullptr)
+    if(t.getRoot() != nullptr)
     {
         visit_by_level(t.getRoot(),0);
     }
