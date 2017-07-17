@@ -36,24 +36,27 @@ int main()
 	t6->insertSibling(t7);
 	t7->insertSibling(t8);
 	t8->insertChild(t9);
+    cout << "Formula: x + f(2,y,-z)*5" << endl;
+    cout << "Previsit:" << endl;
 	preVisit(T);
-	cout << endl;
+    cout << "Postvisit:" << endl;
 	postVisit(T);
-	cout << endl;
+    cout << "Invisit (i = 1):" << endl;
 	inVisit(T,1);
-	cout << endl;
+    cout << "Visit by levels: " << endl;
 	levelVisit(T);
-	cout << endl;
 }
 
 template<typename T>
-void preVisit(TreeNode<T>* n)
+void preVisit(TreeNode<T>* n, int level)
 {
-    cout << n->getValue() << " ";
+    for(int i = 0; i < level; i++)
+        cout << "\t";
+    cout << n->getValue() << endl;
     TreeNode<T>* u = n->getChild();
     while (u != nullptr)
     {
-        preVisit(u);
+        preVisit(u,level + 1);
         u = u->getSibling();
     }
 }
@@ -62,7 +65,8 @@ template<typename T>
 void preVisit(Tree<T>& t)
 {
     if(t.getRoot() != nullptr)
-        preVisit(t.getRoot());
+        preVisit(t.getRoot(),0);
+    cout << endl;
 }
 
 template<typename T>
@@ -70,6 +74,7 @@ void postVisit(Tree<T>& t)
 {
     if(t.getRoot() != nullptr)
         postVisit(t.getRoot());
+    cout << endl;
 }
 
 template<typename T>
@@ -89,6 +94,7 @@ void inVisit(Tree<T>& t,int i)
 {
     if(t.getRoot() != nullptr)
         inVisit(t.getRoot(),i);
+    cout << endl;
 }
 
 template<typename T>
@@ -128,6 +134,6 @@ void levelVisit(Tree<T>& t)
                 u = u->getSibling();
             }
         }
-
+        cout << endl;
     }
 }
