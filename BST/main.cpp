@@ -7,7 +7,13 @@
 using namespace std;
 
 template<typename T>
+void listTree(RBTree<T>& t);
+
+template<typename T>
 void printTree(RBTree<T>& t);
+
+template<typename T>
+void printTree(RBNode<T>* t,int level);
 
 template<typename T>
 void visit_by_level(RBTree<T>& t);
@@ -17,36 +23,38 @@ int height(RBTree<T>& t);
 
 int main()
 {
-    RBTree<int> a;
+    RBTree<int> a(4);
 
     srand(time(0));
-    for (int j = 0; j < 100000; j++)
+    
+    for (int j = 0; j < 10000; j++)
     {
-        a.insertNode(rand()% 100000);
+        int i = rand() % 10000 + 1;
+        a.insertNode(i);
     }
+    
 
-    //printTree(a);
-    cout << "The height of the tree is " << height<int>(a) << endl;
+    //listTree(a);
+    //cout << "The height of the tree is " << height<int>(a) << endl;
 
-    RBNode<int>* it = a.min();
+    RBNode<int>* it = a.max();
 
     while(it != nullptr)
     {
         int rem = it->getKey();
-        it = a.successorNode(it);
+        it = a.predecessorNode(it);
+      //  if(a.getRoot() != nullptr && rem == a.getRoot()->getKey())
+     //       cout << "Holy shit" << endl;
         a.removeNode(rem);
     }
 
-    //printTree(a);
+    cout << "HELLO" << endl;
 
-    //printTree(a);
-    
-    //printTree(a);
-
+    printTree(a);
 }
 
 template<typename T>
-void printTree(RBTree<T>& t)
+void listTree(RBTree<T>& t)
 {
     if (t.getRoot() != nullptr)
     {
@@ -109,4 +117,24 @@ template<typename T>
 int height(RBTree<T>& t)
 {
     return height(t.getRoot());
+}
+
+template<typename T>
+void printTree(RBTree<T>& t)
+{
+    printTree(t.getRoot(),0);
+}
+
+template<typename T>
+void printTree(RBNode<T>* t,int level)
+{
+    if(t != nullptr)
+    {
+        for(int i = 0; i < level; i++)
+            cout << "\t";
+        char color = t->getColor() == BLACK ? 'B' : 'R';
+        cout << color << ":" << t->getKey() << endl;
+        printTree(t->getLeft(),level + 1);
+        printTree(t->getRight(),level + 1);
+    }
 }
