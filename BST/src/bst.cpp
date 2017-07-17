@@ -191,10 +191,17 @@ void RBTree<T>::removeNode(T x)
             t = u->left;
         else
             t = u->right;
-        if((u->parent == nullptr) || (u->parent->key != x))
-            link(u->parent,t,x);
+        if(u->parent != nullptr && u->parent->key == x) // particular case i handle "manually"
+        {
+            if(t != nullptr)
+                t->parent = u->parent;
+            if(u == u->parent->left)
+                u->parent->left = t;
+            else 
+                u->parent->right = t;
+        }
         else
-            link(u->parent,t,x + 1);
+            link(u->parent,t,x);
 
         if(u->parent != nullptr)
         {
