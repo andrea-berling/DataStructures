@@ -48,6 +48,13 @@ T TreeNode<T>::getValue()
 // Retunrns the value of the current node
 
 template<typename T>
+void TreeNode<T>::setValue(T value)
+{
+    this->value = value;
+}
+// Retunrns the value of the current node
+
+template<typename T>
 TreeNode<T>* TreeNode<T>::getParent()
 {
 	return parent;

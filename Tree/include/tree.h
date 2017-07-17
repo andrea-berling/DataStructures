@@ -47,6 +47,9 @@ class TreeNode
         T getValue();
         // Value getter
 
+        void setValue(T value);
+        // Value getter
+
         TreeNode* getParent();
         // Getter for the parent of the node
 
