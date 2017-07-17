@@ -191,7 +191,10 @@ void RBTree<T>::removeNode(T x)
             t = u->left;
         else
             t = u->right;
-        link(u->parent,t,x);
+        if((u->parent == nullptr) || (u->parent->key != x))
+            link(u->parent,t,x);
+        else
+            link(u->parent,t,x + 1);
 
         if(u->parent != nullptr)
         {
@@ -217,15 +220,17 @@ void RBTree<T>::removeNode(T x)
             }
             if(u->parent == nullptr)
                 root = t;
-            while(root->parent != nullptr) // if the balanceDelete procedure modifes the root, it has to be restored
-                root = root->parent;
         }
         else
+        {
             root = nullptr;
+        }
 
         delete u;
 
     }
+    while(root != nullptr && root->parent != nullptr) // if the balanceDelete procedure modifes the root, it has to be restored
+        root = root->parent;
 }
 
 template<typename T>
@@ -246,6 +251,7 @@ RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t)
         t = p;
         p = p->parent;
     }
+
     return p;
 }
 
@@ -253,20 +259,21 @@ template<typename T>
 RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t)
 {
     if(t == nullptr)
-       return t; 
+        return t; 
     if(t->left != nullptr)
     {
         t = t->left;            //searche the max of the left subtree
         while(t->right != nullptr)
             t = t->right;
+        return t;
     }
-
     RBNode<T>* p = t->parent;
     while(p != nullptr && t == p->left)
     {
         t = p;
         p = p->parent;
     }
+
     return p;
 }
 
@@ -413,8 +420,8 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
         else
         {
             RBNode<T>* f = p->left;
-            RBNode<T>* ns = f == nullptr ? nullptr : f->right;
-            RBNode<T>* nd = f == nullptr ? nullptr : f->left;
+            RBNode<T>* ns = f == nullptr ? nullptr : f->left;
+            RBNode<T>* nd = f == nullptr ? nullptr : f->right;
             if (f != nullptr && f->color == RED)
             {
                 p->color = RED;
@@ -429,17 +436,17 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
                         f->color = RED;
                     t = p;
                 }
-                else if ((ns != nullptr && ns->color == RED) && (nd == nullptr || nd->color == BLACK))
+                else if ((nd != nullptr && nd->color == RED) && (ns == nullptr || ns->color == BLACK))
                 {
-                    ns->color = BLACK;
+                    nd->color = BLACK;
                     f->color = RED;
                     rotateLeft(f);
                 }
-                else if (nd != nullptr && nd->color == RED)
+                else if (ns != nullptr && ns->color == RED)
                 {
                     f->color = p->color;
                     p->color = BLACK;
-                    nd->color = BLACK;
+                    ns->color = BLACK;
                     rotateRight(p);
                     t = root;
                 }
