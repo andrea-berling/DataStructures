@@ -33,10 +33,10 @@ class List
         bool empty();
         // Returns true if the sequence is empty
 
-        bool finished(iterator p);
+        bool finished(const iterator p);
         // Returns true if the iterator p has reached the end (or the beginning) of the list
 
-        bool contains(T v);
+        bool contains(const T v);
         // Returns true if the list contains v
 
         iterator begin();
@@ -46,16 +46,16 @@ class List
         // Returns an iterator pointing to the end of the list
         // WARNING it does not contain an element, it points to the sentinel
 
-        void insert(iterator p,T v);
+        void insert(const iterator p,const T v);
         // Inserts v in position p
 
-        void insert(T v);
+        void insert(const T v);
         // Inserts v at the beginning
 
         void remove(iterator& p);
         // removes v in position p
 
-        void write(iterator p,T v);
+        void write(const iterator p,const T v);
         // writes v in position p
 };
 
@@ -79,10 +79,10 @@ class List_iterator
         T& operator*();
         // Returns the element pointed by the iterator
 
-        bool operator==(const iterator & rhs) const;
+        bool operator==(const iterator rhs) const;
         // Returns true if the node pointed by the lhs iterator is the same as the one pointed by rhs
 
-        bool operator!=(const iterator & rhs) const;
+        bool operator!=(const iterator rhs) const;
         // Returns !(lhs == rhs)
         
         iterator& operator++();

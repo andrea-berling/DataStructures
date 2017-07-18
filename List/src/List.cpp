@@ -30,14 +30,14 @@ bool List<T>::empty()
 // Returns true if the sequence is empty
 
 template<typename T>
-bool List<T>::finished(List_iterator<T> p)
+bool List<T>::finished(const List_iterator<T> p)
 {
 	return p.node == first;
 }
 // Returns true if the list is finished
 
 template<typename T>
-bool List<T>::contains(T v)
+bool List<T>::contains(const T v)
 {
     if(!empty())
     {
@@ -68,7 +68,7 @@ List_iterator<T> List<T>::end()
 // Returns the position of the last element
 
 template<typename T>
-void List<T>::insert(List_iterator<T> p,T v)
+void List<T>::insert(const List_iterator<T> p,const T v)
 {
 	ListNode<T>* t = new ListNode<T>();
 	t->value = v;
@@ -81,7 +81,7 @@ void List<T>::insert(List_iterator<T> p,T v)
 // returns the position of the new inserted element 
 
 template<typename T>
-void List<T>::insert(T v)
+void List<T>::insert(const T v)
 {
    insert(begin(),v); 
 }
@@ -101,15 +101,17 @@ void List<T>::remove(List_iterator<T>& p)
 // returns the position of p's next element
 
 template<typename T>
-void List<T>::write(List_iterator<T> p,T v)
+void List<T>::write(const List_iterator<T> p,const T v)
 {
 	p.node->value = v;
 }
 // writes v in position p
 
 template<typename T>
-List_iterator<T>::List_iterator(ListNode<T>* node):node(node)
-{ }
+List_iterator<T>::List_iterator(ListNode<T>* node)
+{ 
+    this->node = node;
+}
 
 template<typename T>
 List_iterator<T>::List_iterator():node(nullptr)
@@ -122,13 +124,13 @@ T& List_iterator<T>::operator*()
 }
 
 template<typename T>
-bool List_iterator<T>::operator==(const List_iterator<T> & rhs) const
+bool List_iterator<T>::operator==(const List_iterator<T> rhs) const
 {
     return (this->node == rhs.node);
 }
 
 template<typename T>
-bool List_iterator<T>::operator!=(const List_iterator<T> & rhs) const
+bool List_iterator<T>::operator!=(const List_iterator<T> rhs) const
 {
     return !(this->node == rhs.node);
 }
