@@ -30,32 +30,32 @@ class List
 		~List();
 		// Destructor
 
-        bool empty();
+        bool empty() const;
         // Returns true if the sequence is empty
 
-        bool finished(const iterator p);
+        bool finished(const iterator p) const;
         // Returns true if the iterator p has reached the end (or the beginning) of the list
 
-        bool contains(const T v);
+        bool contains(const T v) const;
         // Returns true if the list contains v
 
-        iterator begin();
+        iterator begin() const;
         // Returns an iterator pointing to the first element
 
-        iterator end();
+        iterator end() const;
         // Returns an iterator pointing to the end of the list
         // WARNING it does not contain an element, it points to the sentinel
 
-        void insert(const iterator p,const T v);
+        void insert(const iterator p,const T v) const;
         // Inserts v in position p
 
-        void insert(const T v);
+        void insert(const T v) const;
         // Inserts v at the beginning
 
-        void remove(iterator& p);
+        void remove(iterator& p) const;
         // removes v in position p
 
-        void write(const iterator p,const T v);
+        void write(const iterator p,const T v) const;
         // writes v in position p
 };
 
@@ -76,7 +76,7 @@ class List_iterator
         List_iterator();
         // Default constructor
 
-        T& operator*();
+        T& operator*() const;
         // Returns the element pointed by the iterator
 
         bool operator==(const iterator rhs) const;

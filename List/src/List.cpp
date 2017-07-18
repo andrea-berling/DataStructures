@@ -23,21 +23,21 @@ List<T>::~List()
     delete first;
 }
 template<typename T>
-bool List<T>::empty()
+bool List<T>::empty() const
 {
 	return (first->next == first && first->prev == first);
 }
 // Returns true if the sequence is empty
 
 template<typename T>
-bool List<T>::finished(const List_iterator<T> p)
+bool List<T>::finished(const List_iterator<T> p) const
 {
 	return p.node == first;
 }
 // Returns true if the list is finished
 
 template<typename T>
-bool List<T>::contains(const T v)
+bool List<T>::contains(const T v) const
 {
     if(!empty())
     {
@@ -54,21 +54,21 @@ bool List<T>::contains(const T v)
 // Returns true if the list contains v
 
 template<typename T>
-List_iterator<T> List<T>::begin()
+List_iterator<T> List<T>::begin() const
 {
 	return List_iterator<T>(first->next);
 }
 // Returns the position of the first element
 
 template<typename T>
-List_iterator<T> List<T>::end()
+List_iterator<T> List<T>::end() const
 {
 	return List_iterator<T>(first);
 }
 // Returns the position of the last element
 
 template<typename T>
-void List<T>::insert(const List_iterator<T> p,const T v)
+void List<T>::insert(const List_iterator<T> p,const T v) const
 {
 	ListNode<T>* t = new ListNode<T>();
 	t->value = v;
@@ -81,14 +81,14 @@ void List<T>::insert(const List_iterator<T> p,const T v)
 // returns the position of the new inserted element 
 
 template<typename T>
-void List<T>::insert(const T v)
+void List<T>::insert(const T v) const
 {
    insert(begin(),v); 
 }
 // Inserts v at the beginning
 
 template<typename T>
-void List<T>::remove(List_iterator<T>& p)
+void List<T>::remove(List_iterator<T>& p) const
 {
     ListNode<T>* t;
 	p.node->prev->next = p.node->next;
@@ -101,9 +101,10 @@ void List<T>::remove(List_iterator<T>& p)
 // returns the position of p's next element
 
 template<typename T>
-void List<T>::write(const List_iterator<T> p,const T v)
+void List<T>::write(const List_iterator<T> p,const T v) const
 {
-	p.node->value = v;
+    if(p.node != first)
+        p.node->value = v;
 }
 // writes v in position p
 
@@ -118,7 +119,7 @@ List_iterator<T>::List_iterator():node(nullptr)
 { }
 
 template<typename T>
-T& List_iterator<T>::operator*()
+T& List_iterator<T>::operator*() const
 {
     return node->value;
 }
