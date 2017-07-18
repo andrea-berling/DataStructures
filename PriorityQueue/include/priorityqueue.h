@@ -42,7 +42,11 @@ class PriorityQueue
     public:
 
         PriorityQueue();
+        // Default constructor
 
+        ~PriorityQueue();
+        // Destructor
+        
         PriorityQueue(int n);
         // Creates a new priority queue
         
@@ -60,7 +64,10 @@ class PriorityQueue
         // Returns a Prority item reference that identifies x in the queue
 
         void decrease(PriorityItem<T>& x, int p);
-        // Decreases the priority of y to p
+        // Decreases the priority of x to p
+
+        void decrease(T x, int p);
+        // Decreases the priority of x to p
 
 };
 
