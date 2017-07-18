@@ -93,6 +93,13 @@ PriorityQueue<T>::PriorityQueue()
 }
 
 template<typename T>
+PriorityQueue<T>::~PriorityQueue()
+{
+    if(H != nullptr)
+        delete [] H;
+}
+
+template<typename T>
 PriorityQueue<T>::PriorityQueue(int n)
 {
     H = new PriorityItem<T>[n];
@@ -181,5 +188,19 @@ void PriorityQueue<T>::decrease(PriorityItem<T>& x, int p)
     }
 }
 // Decreases the priority of y to p
+
+template<typename T>
+void PriorityQueue<T>::decrease(T x, int p)
+{
+    PriorityItem<T> I;
+    bool found = false;
+    for(int i = 0; i < dim && !found; i++)
+        if(H[i].getValue() == x)
+        {
+            I = H[i];
+        }
+    decrease(I,p);
+}
+// Decreases the priority of x to p. 
 
 #endif

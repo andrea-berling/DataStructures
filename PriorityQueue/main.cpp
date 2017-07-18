@@ -21,7 +21,8 @@ int main()
     cout << q.isEmpty() << endl;
     // Test decrease
     PriorityItem<int> a = q.insert(19,19);
-    q.decrease(a,0);
+    //q.decrease(a,0);
+    q.decrease(19,0);
     for(int i = 0; i < 6; i++)
         cout << q.deleteMin() << " ";
     cout << endl;
