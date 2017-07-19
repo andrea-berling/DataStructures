@@ -23,19 +23,19 @@ class HashPair
         HashPair();
         // Default constructor
         
-        HashPair(K key,V value);
+        HashPair(const K key,const V value);
         // constructs a new hash pair given a key and a value
 
-        K getKey();
+        K getKey() const;
         // returns the key
         
-        void setKey(K key);
+        void setKey(const K key);
         // sets the key
         
-        V getValue();
+        V getValue() const;
         // returns the value
         
-        void setValue(V v);
+        void setValue(const V v);
         // sets the value
         
 };
@@ -49,26 +49,26 @@ class HashList
 
     public:
 
-        List_iterator<HashPair<K,V>> find(K key);
+        List_iterator<HashPair<K,V>> find(const K key) const;
         // Returns an HashPair given a key if present, null if absent
         
-        void insert(K key,V value);
+        void insert(const K key,const V value) const;
         // Inserts a key-value pair in the HashList
 
-        V lookup(K key);
+        V lookup(const K key) const;
         // Returns a reference to an HashPair value given a key if present; null otherwise
         
-        void remove(K key);
+        void remove(const K key) const;
         // Removes an element given a key
 
-        bool empty();
+        bool empty() const;
         // Returns true if the list is empty, false otherwise
 
-        List_iterator<HashPair<K,V>> begin();
+        List_iterator<HashPair<K,V>> begin() const;
 
-        List_iterator<HashPair<K,V>> end();
+        List_iterator<HashPair<K,V>> end() const;
 
-        bool finished(List_iterator<HashPair<K,V>> p);
+        bool finished(List_iterator<HashPair<K,V>> const p) const;
 
 };
 
@@ -79,10 +79,10 @@ template<typename K, typename V>
 class hash_iterator;
 
 template<typename K, typename V>
-bool operator ==(const hash_iterator<K,V>& it, const hash_iterator<K,V>& it2);
+bool operator ==(const hash_iterator<K,V> it, const hash_iterator<K,V> it2);
 
 template<typename K, typename V>
-bool operator !=(const hash_iterator<K,V>& it, const hash_iterator<K,V>& it2);
+bool operator !=(const hash_iterator<K,V> it, const hash_iterator<K,V> it2);
 
 template<typename K, typename V>
 class hash_iterator
@@ -102,9 +102,9 @@ class hash_iterator
 
         hash_iterator(const hash_iterator& it2);
 
-        friend bool operator == <>(const hash_iterator& it, const hash_iterator& it2);
+        friend bool operator == <>(const hash_iterator it, const hash_iterator it2);
 
-        friend bool operator != <>(const hash_iterator& it, const hash_iterator& it2);
+        friend bool operator != <>(const hash_iterator it, const hash_iterator it2);
 
         hash_iterator begin();
 
@@ -114,7 +114,7 @@ class hash_iterator
 
         hash_iterator operator ++( int ); //postfix
 
-        HashPair<K,V> operator *();
+        HashPair<K,V> operator *() const;
 };
 
 template<typename K, typename V>
@@ -128,37 +128,33 @@ class HashTable
 
     public:
 
-        HashTable()
-        {}
-        // Default constructor
-
-        HashTable(int capacity);
+        HashTable(const int capacity);
         //Creates a new hash table with given dimension
 
         ~HashTable();
         //Destructor
         
-        bool contains(K k);
+        bool contains(const K k) const;
         //Returns true if the hashtable contains k
 
-        V lookup(K k);
+        V lookup(const K k) const;
         //returns the value being searched if present, nil otherwise
         
-        V operator [](K k);
+        V operator [](const K k) const;
         // same as lookup, with a array like notation
 
-        void insert(K key,V value);
+        void insert(const K key,const V value) const;
         //Inserts the key-value pair into the table
 
-        void remove(K key);
+        void remove(const K key) const;
         //Given a key, it removes the key-pair value, if present
 
-        int Hash(long int key);
+        int Hash(const long int key) const;
         //Hash function
         
         hash_iterator<K,V> begin();
 
-        hash_iterator<K,V> end();
+        hash_iterator<K,V> end() const;
 };
 
 namespace keyOnly
