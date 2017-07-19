@@ -11,25 +11,25 @@ class Dequeue
 
     public:
 
-        bool empty();
+        bool empty() const;
         // Returns true if empty
         
-        void push(T v);
+        void push(const T v) const;
         // Pushes v on top of the dequeue
         
-        void push_back(T v);
+        void push_back(const T v) const;
         // Pushes v at the end of the dequeue
 
-        T pop();
+        T pop() const;
         // Pops the element on top
 
-        T pop_last();
+        T pop_last() const;
         // Pops the element at the end
 
-        T& top();
+        T& top() const;
         // Returns the element on top
 
-        T& last();
+        T& last() const;
         // Returns the element at the end
 };
 

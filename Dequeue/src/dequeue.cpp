@@ -3,28 +3,28 @@
 #include "../include/dequeue.h"
 
 template<typename T>
-bool Dequeue<T>::empty()
+bool Dequeue<T>::empty() const
 {
     return l.empty();
 }
 // Returns true if empty
 
 template<typename T>
-void Dequeue<T>::push(T v)
+void Dequeue<T>::push(const T v) const
 {
     l.insert(l.begin(),v);
 }
 // Pushes v on top of the dequeue
 
 template<typename T>
-void Dequeue<T>::push_back(T v)
+void Dequeue<T>::push_back(const T v) const
 {
     l.insert(l.end(),v);
 }
 // Pushes v at the end of the dequeue
 
 template<typename T>
-T Dequeue<T>::pop()
+T Dequeue<T>::pop() const
 {
     T item;
     if(!empty())
@@ -39,7 +39,7 @@ T Dequeue<T>::pop()
 // Pops the element on top
 
 template<typename T>
-T Dequeue<T>::pop_last()
+T Dequeue<T>::pop_last() const
 {
     T item;
     if(!empty())
@@ -54,14 +54,14 @@ T Dequeue<T>::pop_last()
 // Pops the element at the end
 
 template<typename T>
-T& Dequeue<T>::top()
+T& Dequeue<T>::top() const
 {
     return *(l.begin());
 }
 // Returns the element on top
 
 template<typename T>
-T& Dequeue<T>::last()
+T& Dequeue<T>::last() const
 {
     return *(--l.end());
 }
