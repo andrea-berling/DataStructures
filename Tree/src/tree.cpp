@@ -10,7 +10,7 @@ Tree<T>::Tree()
 }
 
 template<typename T>
-Tree<T>::Tree(T v)
+Tree<T>::Tree(const T v)
 {
     root = new TreeNode<T>(v);
 }
@@ -27,7 +27,7 @@ Tree<T>::~Tree()
 // Constructs a tree with a single node containing v
 
 template<typename T>
-TreeNode<T>* Tree<T>::getRoot()
+TreeNode<T>* Tree<T>::getRoot() const
 {
     return root;
 }
@@ -37,39 +37,39 @@ TreeNode<T>::TreeNode() : parent(nullptr),child(nullptr),sibling(nullptr)
 { }
 
 template<typename T>
-TreeNode<T>::TreeNode(T value) : parent(nullptr),child(nullptr),sibling(nullptr),value(value)
+TreeNode<T>::TreeNode(const T value) : parent(nullptr),child(nullptr),sibling(nullptr),value(value)
 { }
 
 template<typename T>
-T TreeNode<T>::getValue()
+T TreeNode<T>::getValue() const
 {
 	return value;
 }
 // Retunrns the value of the current node
 
 template<typename T>
-void TreeNode<T>::setValue(T value)
+void TreeNode<T>::setValue(const T value)
 {
     this->value = value;
 }
 // Retunrns the value of the current node
 
 template<typename T>
-TreeNode<T>* TreeNode<T>::getParent()
+TreeNode<T>* TreeNode<T>::getParent() const
 {
 	return parent;
 }
 // Returns the Parent; nullptr if absent
 
 template<typename T>
-TreeNode<T>* TreeNode<T>::getChild()
+TreeNode<T>* TreeNode<T>::getChild() const
 {
 	return child;
 }
 // Returns the leftmost Child
 
 template<typename T>
-TreeNode<T>* TreeNode<T>::getSibling()
+TreeNode<T>* TreeNode<T>::getSibling() const
 {
 	return sibling;
 }

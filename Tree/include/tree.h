@@ -15,13 +15,13 @@ class Tree
 		Tree();
 		// Constructs an empty tree
 		
-		Tree(T v);
+		Tree(const T v);
 		// Constructs a tree with a single node containing v
 		
         ~Tree();
         // Destructor
 
-        TreeNode<T>* getRoot();
+        TreeNode<T>* getRoot() const; 
         // getter for the root
 };
 
@@ -41,22 +41,22 @@ class TreeNode
         TreeNode();
         // Default constructor
 
-        TreeNode(T value);
+        TreeNode(const T value);
         // Creates a node given a value
 
-        T getValue();
+        T getValue() const;
         // Value getter
 
-        void setValue(T value);
+        void setValue(const T value);
         // Value getter
 
-        TreeNode* getParent();
+        TreeNode* getParent() const;
         // Getter for the parent of the node
 
-        TreeNode* getChild();
+        TreeNode* getChild() const;
         // Getter for the left child of the node
 
-        TreeNode* getSibling();
+        TreeNode* getSibling() const;
         // Getter for the right child of the node
 
 		void insertChild(TreeNode* t);
