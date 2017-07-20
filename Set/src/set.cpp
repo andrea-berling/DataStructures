@@ -203,33 +203,28 @@ namespace Hash
     using keyOnly::HashTable;
 
     template<typename T>
-    Set<T>::Set(int capacity):elements(capacity)
+    Set<T>::Set(const int capacity):elements(capacity)
     {
         cardinality = 0;
     }
     // Default constructor; creates a new empty set
 
     template<typename T>
-    bool Set<T>::isEmpty()
+    bool Set<T>::isEmpty() const
     {
         return cardinality == 0;
     }
     // Returns true if the set is empty, false otherwise
 
     template<typename T>
-    bool Set<T>::contains(T x)
+    bool Set<T>::contains(const T x) const
     {
-        T test = T();
-        T s = elements.lookup(x);
-        if(s == test)
-            return false;
-        else
-            return true;
+        return elements.contains(x);
     }
     // Returns true if the set contains x, false otherwise
 
     template<typename T>
-    bool Set<T>::insert(T x)
+    bool Set<T>::insert(const T x)
     {
         if (!contains(x))
         {
@@ -243,11 +238,12 @@ namespace Hash
     // Returns true if x is not in the element and is successfully inserted; false if present
 
     template<typename T>
-    bool Set<T>::remove(T x)
+    bool Set<T>::remove(const T x)
     {
         if(contains(x))
         {
             elements.remove(x);
+            cardinality--;
             return true;
         }
         else
@@ -274,7 +270,7 @@ namespace Hash
     // Returns a reference to the end fo the list
 
     template<typename T>
-    int Set<T>::size()
+    int Set<T>::size() const
     {
         return cardinality;
     }
@@ -326,7 +322,7 @@ namespace Tree
     }
 
     template<typename T>
-    void set_iterator<T>::operator =(const set_iterator<T>& rightside)
+    void set_iterator<T>::operator =(const set_iterator<T> rightside)
     {
         baseTree = rightside.baseTree;
         p = rightside.p;
@@ -363,19 +359,19 @@ namespace Tree
     }
 
     template<typename T>
-    T set_iterator<T>::operator *()
+    T set_iterator<T>::operator *() const
     {
         return p->getKey();
     }
 
     template<typename T>
-    bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2)
+    bool operator ==(const set_iterator<T> it1, const set_iterator<T> it2)
     {
         return (it1.baseTree == it2.baseTree && it1.p == it2.p);
     }
 
     template<typename T>
-    bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2)
+    bool operator !=(const set_iterator<T> it1, const set_iterator<T> it2)
     {
         return !(it1 == it2);
     }
@@ -386,25 +382,26 @@ namespace Tree
     // Default constructor; creates a new empty set
 
     template<typename T>
-    bool Set<T>::isEmpty()
+    bool Set<T>::isEmpty() const
     {
         return cardinality == 0;
     }
     // Returns true if the set is empty, false otherwise
 
     template<typename T>
-    bool Set<T>::contains(T x)
+    bool Set<T>::contains(const T x) const
     {
         return elements.lookupNode(x) != nullptr;
     }
     // Returns true if the set contains x, false otherwise
 
     template<typename T>
-    bool Set<T>::insert(T x)
+    bool Set<T>::insert(const T x)
     {
         if(!contains(x))
         {
             elements.insertNode(x);
+            cardinality++;
             return true;
         }
         else
@@ -413,11 +410,12 @@ namespace Tree
     // Returns true if x is not in the element and is successfully inserted; false if present
 
     template<typename T>
-    bool Set<T>::remove(T x)
+    bool Set<T>::remove(const T x)
     {
         if(contains(x))
         {
             elements.removeNode(x);
+            cardinality--;
             return true;
         }
         else
@@ -426,7 +424,7 @@ namespace Tree
     // Return ture if x is present in the set and removes it; false if absent
 
     template<typename T>
-    int Set<T>::size()
+    int Set<T>::size() const
     {
         return cardinality;
     }

@@ -13,7 +13,7 @@ RBNode<T>::RBNode()
 // Default constructor
 
 template<typename T>
-RBNode<T>::RBNode(T key): key(key)
+RBNode<T>::RBNode(const T key): key(key)
 {
     parent = nullptr;
     left = nullptr;
@@ -23,38 +23,38 @@ RBNode<T>::RBNode(T key): key(key)
 // Creates a node given a key
 
 template<typename T>
-T RBNode<T>::getKey()
+T RBNode<T>::getKey() const
 {
     return key;
 }
 // Key getter
 
 template<typename T>
-RBNode<T>* RBNode<T>::getParent()
+RBNode<T>* RBNode<T>::getParent() const
 {
     return parent;
 }
 
 template<typename T>
-RBNode<T>* RBNode<T>::getLeft()
+RBNode<T>* RBNode<T>::getLeft() const
 {
     return left;
 }
 
 template<typename T>
-RBNode<T>* RBNode<T>::getRight()
+RBNode<T>* RBNode<T>::getRight() const
 {
     return right;
 }
 
 template<typename T>
-color_t RBNode<T>::getColor()
+color_t RBNode<T>::getColor() const
 {
     return color;
 }
 
 template<typename T>
-void link(RBNode<T>* p,RBNode<T>* u,T x)
+void link(RBNode<T>* p,RBNode<T>* u,const T x)
 {
     if(u != nullptr)
         u->parent = p;
@@ -74,13 +74,13 @@ RBTree<T>::RBTree()
 }
 
 template<typename T>
-RBTree<T>::RBTree(T key)
+RBTree<T>::RBTree(const T key)
 {
     root = new RBNode<T>(key);
 }
 
 template<typename T>
-RBTree<T>::RBTree(RBNode<T>& u)
+RBTree<T>::RBTree(const RBNode<T>& u)
 {
     root = &u;
 }
@@ -106,7 +106,7 @@ RBTree<T>::~RBTree()
 // Creates a new tree given an existing node
 
 template<typename T>
-RBNode<T>* RBTree<T>::lookupNode(T x)
+RBNode<T>* RBTree<T>::lookupNode(const T x) const
 {
     RBNode<T> *t = root;
     while(t != nullptr && t->key != x)
@@ -115,14 +115,14 @@ RBNode<T>* RBTree<T>::lookupNode(T x)
 }
 
 template<typename T>
-void RBTree<T>::insertNode(RBNode<T>* u)
+void RBTree<T>::insertNode(const RBNode<T>* u)
 {
     if(u != nullptr)
        insertNode(u->key);
 }
 
 template<typename T>
-void RBTree<T>::insertNode(T x)
+void RBTree<T>::insertNode(const T x)
 {
     RBNode<T> *p = nullptr;
     RBNode<T> *u = root;
@@ -143,7 +143,7 @@ void RBTree<T>::insertNode(T x)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::min()
+RBNode<T>* RBTree<T>::min() const
 {
     if(root == nullptr)
         return root;
@@ -157,7 +157,7 @@ RBNode<T>* RBTree<T>::min()
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::max()
+RBNode<T>* RBTree<T>::max() const
 {
     if(root == nullptr)
         return root;
@@ -241,7 +241,7 @@ void RBTree<T>::removeNode(T x)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t)
+RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t) const
 {
     if(t == nullptr)
         return t;
@@ -263,7 +263,7 @@ RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t)
+RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t) const
 {
     if(t == nullptr)
         return t; 
@@ -287,7 +287,7 @@ RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t)
 //OLD STUFF
 
 template<typename T>
-RBNode<T>* RBTree<T>::rotateLeft(RBNode<T>* x)
+RBNode<T>* RBTree<T>::rotateLeft(RBNode<T>* x) const
 {
     RBNode<T>* y = x->right;
     RBNode<T>* p = x->parent;
@@ -310,7 +310,7 @@ RBNode<T>* RBTree<T>::rotateLeft(RBNode<T>* x)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::rotateRight(RBNode<T>* x)
+RBNode<T>* RBTree<T>::rotateRight(RBNode<T>* x) const
 {
     RBNode<T>* y = x->left;
     RBNode<T>* p = x->parent;
@@ -333,7 +333,7 @@ RBNode<T>* RBTree<T>::rotateRight(RBNode<T>* x)
 }
 
 template<typename T>
-void RBTree<T>::balanceInsert(RBNode<T>* t)
+void RBTree<T>::balanceInsert(RBNode<T>* t) const
 {
     t->color = RED;
 
@@ -384,7 +384,7 @@ void RBTree<T>::balanceInsert(RBNode<T>* t)
 }
 
 template<typename T>
-void RBTree<T>::balanceDelete(RBNode<T>* t)
+void RBTree<T>::balanceDelete(RBNode<T>* t) const
 {
     while(t != root && t->color == BLACK)
     {
@@ -465,7 +465,7 @@ void RBTree<T>::balanceDelete(RBNode<T>* t)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::getRoot()
+RBNode<T>* RBTree<T>::getRoot() const
 {
     return root;
 }

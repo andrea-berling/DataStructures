@@ -333,7 +333,7 @@ namespace keyOnly
 {
 
     template<typename K>
-    List_iterator<K> HashList<K>::find(K key)
+    List_iterator<K> HashList<K>::find(const K key) const
     {
         bool found = false;
         List_iterator<K> e = List_iterator<K>(nullptr);
@@ -359,7 +359,7 @@ namespace keyOnly
     // Returns an HashPair given a key if present, null if absent
 
     template<typename K>
-    void HashList<K>::insert(K key)
+    void HashList<K>::insert(const K key) const
     {
         List_iterator<K> k = find(key);
 
@@ -375,6 +375,7 @@ namespace keyOnly
     }
     // Inserts a key-value pair in the HashList
     
+    /*
     template<typename K>
     K HashList<K>::lookup(K key)
     {
@@ -387,9 +388,9 @@ namespace keyOnly
         return e;
     }
     // Returns a reference to an HashPair value given a key if present; null otherwise
-
+*/
     template<typename K>
-    void HashList<K>::remove(K key)
+    void HashList<K>::remove(const K key) const
     {
         List_iterator<K> item = find(key);
         if(item != List_iterator<K>(nullptr))
@@ -397,25 +398,25 @@ namespace keyOnly
     }
 
     template<typename K>
-    bool HashList<K>::empty()
+    bool HashList<K>::empty() const
     {
         return l.empty();
     }
 
     template<typename K>
-    List_iterator<K> HashList<K>::begin()
+    List_iterator<K> HashList<K>::begin() const
     {
         return l.begin();
     }
 
     template<typename K>
-    List_iterator<K> HashList<K>::end()
+    List_iterator<K> HashList<K>::end() const
     {
         return l.end();
     }
 
     template<typename K>
-    bool HashList<K>::finished(List_iterator<K> p)
+    bool HashList<K>::finished(const List_iterator<K> p) const
     {
         return l.finished(p);
     }
@@ -463,13 +464,13 @@ namespace keyOnly
     }
 
     template<typename K>
-    bool operator ==(const hash_iterator<K>& it, const hash_iterator<K>& it2)
+    bool operator ==(const hash_iterator<K> it, const hash_iterator<K> it2)
     {
         return (it.baseTable == it2.baseTable && it.it == it2.it);
     }
 
     template<typename K>
-    bool operator !=(const hash_iterator<K>& it, const hash_iterator<K>& it2)
+    bool operator !=(const hash_iterator<K> it, const hash_iterator<K> it2)
     {
         return !(it == it2);
     }
@@ -488,7 +489,7 @@ namespace keyOnly
     }
 
     template<typename K>
-    hash_iterator<K> hash_iterator<K>::end()
+    hash_iterator<K> hash_iterator<K>::end() const
     {
         hash_iterator<K> ret(*this);
         ret.i = baseTable->m;
@@ -520,14 +521,14 @@ namespace keyOnly
     }
 
     template<typename K>
-    K hash_iterator<K>::operator *()
+    K hash_iterator<K>::operator *() const
     {
         
         return *it;
     }
 
     template<typename K>
-    HashTable<K>::HashTable(int capacity)
+    HashTable<K>::HashTable(const int capacity)
     {
         entries = new HashList<K> [capacity];
         m = capacity;
@@ -545,9 +546,10 @@ namespace keyOnly
     HashTable<K>::HashTable()
     {
         entries = nullptr;
-        m = 1;
+        m = -1;
     }
 
+    /*
     template<typename K>
     K HashTable<K>::lookup(K k)
     {
@@ -560,9 +562,10 @@ namespace keyOnly
         return key;
     }
     //returns the value being searched if present, nil otherwise
+    */
 
     template<typename K>
-    bool HashTable<K>::contains(K k)
+    bool HashTable<K>::contains(const K k) const
     {
         int i = Hash(hash<K>()(k));
         if(entries[i].empty())
@@ -577,7 +580,7 @@ namespace keyOnly
     }
 
     template<typename K>
-    void HashTable<K>::insert(K key)
+    void HashTable<K>::insert(const K key) const
     {
         int i = Hash(hash<K>()(key));
         
@@ -586,7 +589,7 @@ namespace keyOnly
     //Inserts the key-value pair into the table
 
     template<typename K>
-    void HashTable<K>::remove(K key)
+    void HashTable<K>::remove(const K key) const
     {
         int k = Hash(hash<K>()(key));	
 
@@ -597,7 +600,7 @@ namespace keyOnly
     //Given a key, it removes the key-pair value, if present
 
     template<typename K>
-    int HashTable<K>::Hash(long int key)
+    int HashTable<K>::Hash(const long int key) const
     {
         return abs(key) % m;
     }

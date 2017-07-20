@@ -105,25 +105,22 @@ namespace Hash
 
         public:
 
-            Set()
-            {}
-
-            Set(int capacity);
+            Set(const int capacity);
             // Default constructor; creates a new empty set
 
-            bool isEmpty();
+            bool isEmpty() const;
             // Returns true if the set is empty, false otherwise
             
-            bool contains(T x);
+            bool contains(const T x) const;
             // Returns true if the set contains x, false otherwise
 
-            bool insert(T x);
+            bool insert(const T x);
             // Returns true if x is not in the element and is successfully inserted; false if present
 
-            bool remove(T x);
+            bool remove(const T x);
             // Return ture if x is present in the set and removes it; false if absent
 
-            int size();
+            int size() const;
 
             // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
 
@@ -142,10 +139,10 @@ namespace Tree
     template<typename T> class set_iterator;
 
     template<typename T>
-    bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2);
+    bool operator ==(const set_iterator<T> it1, const set_iterator<T> it2);
 
     template<typename T>
-    bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2);
+    bool operator !=(const set_iterator<T> it1, const set_iterator<T> it2);
 
     template<typename T>
     class set_iterator
@@ -167,7 +164,7 @@ namespace Tree
 
             set_iterator end(RBTree<T>& t);
 
-            void operator =(const set_iterator& rightside);
+            void operator =(const set_iterator rightside);
             
             set_iterator operator ++(); //prefix
 
@@ -177,11 +174,11 @@ namespace Tree
 
             set_iterator operator --( int ); //postfix
 
-            T operator *();
+            T operator *() const;
 
-            friend bool operator == <>(const set_iterator<T>& it1, const set_iterator<T>& it2);
+            friend bool operator == <>(const set_iterator<T> it1, const set_iterator<T> it2);
 
-            friend bool operator != <>(const set_iterator<T>& it1, const set_iterator<T>& it2);
+            friend bool operator != <>(const set_iterator<T> it1, const set_iterator<T> it2);
 
     };
 
@@ -199,19 +196,19 @@ namespace Tree
             Set();
             // Default constructor; creates a new empty set
 
-            bool isEmpty();
+            bool isEmpty() const;
             // Returns true if the set is empty, false otherwise
             
-            bool contains(T x);
+            bool contains(const T x) const;
             // Returns true if the set contains x, false otherwise
 
-            bool insert(T x);
+            bool insert(const T x);
             // Returns true if x is not in the element and is successfully inserted; false if present
 
-            bool remove(T x);
+            bool remove(const T x);
             // Return ture if x is present in the set and removes it; false if absent
 
-            int size();
+            int size() const;
 
             // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
 
