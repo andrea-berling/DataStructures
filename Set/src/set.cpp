@@ -56,21 +56,25 @@ namespace list
     template<typename T>
     bool Set<T>::remove(T x)
     {
-        bool done = false;
-
-        for(List_iterator<T> it = elements.begin(); it != elements.end(); it++)
+        if(cardinality > 0)
         {
-            if (*it == x)
-            {
-                elements->remove(it);
-                done = true;
-            }
-        }
+            bool done = false;
 
-        if(done)
-            return true;
-        else
-            return false;
+            for(List_iterator<T> it = elements.begin(); it != elements.end(); it++)
+            {
+                if (*it == x)
+                {
+                    elements->remove(it);
+                    done = true;
+                }
+            }
+
+            if(done)
+                return true;
+            else
+                return false;
+
+        }
     }
     // Return ture if x is present in the set and removes it; false if absent
 
@@ -412,7 +416,7 @@ namespace Tree
     template<typename T>
     bool Set<T>::remove(const T x)
     {
-        if(contains(x))
+        if(cardinality > 0 && contains(x))
         {
             elements.removeNode(x);
             cardinality--;
