@@ -61,9 +61,8 @@ class Node {
         }
 
         friend bool operator ==(const Node& n1, const Node& n2);
-
+        
 };
-
 
 namespace std
 {
@@ -80,8 +79,6 @@ bool operator ==(const Node& n1, const Node& n2)
 {
     return (n1.name == n2.name) && (n1.weight == n2.weight);
 }
-
-Node nil("",INT_MAX);
 
 int main()
 {
@@ -106,7 +103,7 @@ int main()
 
     H2.remove("numero 1");
     i = H2.lookup("numero 1");
-    if(i == nil)
+    if(i == Node())
         cout << "Element not found" << endl;
 
     

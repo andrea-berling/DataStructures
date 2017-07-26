@@ -88,7 +88,7 @@ template<typename K, typename V>
 V HashList<K,V>::lookup(const K key) const
 {
     List_iterator<HashPair<K,V>> kv = find(key);
-    V e;
+    V e = V();
 
     if (kv != List_iterator<HashPair<K,V>>(nullptr))
     {
@@ -322,7 +322,7 @@ hash_iterator<K,V> HashTable<K,V>::begin()
 }
 
 template<typename K, typename V>
-hash_iterator<K,V> HashTable<K,V>::end() const
+hash_iterator<K,V> HashTable<K,V>::end()
 {
     hash_iterator<K,V> ret(this);
 

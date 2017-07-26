@@ -154,7 +154,7 @@ class HashTable
         
         hash_iterator<K,V> begin();
 
-        hash_iterator<K,V> end() const;
+        hash_iterator<K,V> end();
 };
 
 namespace keyOnly
