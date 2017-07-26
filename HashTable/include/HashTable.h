@@ -1,6 +1,5 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
-#include <string>
 #include "../../List/include/List.h"
 
 /**
