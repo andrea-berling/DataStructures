@@ -20,7 +20,7 @@ template<typename T>
 T Stack<T>::pop()
 {
     T item;
-    List_iterator<T> it = A.begin();
+    typename List<T>::iterator it = A.begin();
 
     if(!isEmpty())
     {

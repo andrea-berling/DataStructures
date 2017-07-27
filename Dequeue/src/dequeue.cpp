@@ -29,7 +29,7 @@ T Dequeue<T>::pop() const
     T item;
     if(!empty())
     {
-        List_iterator<T> it = l.begin();
+        typename List<T>::iterator it = l.begin();
         item = *it;
         l.remove(it);
     }
@@ -44,7 +44,7 @@ T Dequeue<T>::pop_last() const
     T item;
     if(!empty())
     {
-        List_iterator<T> it = --l.end();
+        typename List<T>::iterator it = --l.end();
         item = *it;
         l.remove(it);
     }

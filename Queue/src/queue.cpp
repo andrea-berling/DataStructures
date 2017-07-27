@@ -19,7 +19,7 @@ void Queue<T>::enqueue(T v)
 template<typename T>
 T Queue<T>::dequeue()
 {
-    List_iterator<T> it = A.begin();
+    typename List<T>::iterator it = A.begin();
 	T t = *(A.begin());
     A.remove(it);
 	return t;
