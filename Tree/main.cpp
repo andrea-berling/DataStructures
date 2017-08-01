@@ -20,14 +20,14 @@ void levelVisit(Tree<T>& t);
 int main()
 {
 	Tree<string> T("+");
-	TreeNode<string>* t2 = new TreeNode<string>("x");
-	TreeNode<string>* t3 = new TreeNode<string>("*");
-	TreeNode<string>* t4 = new TreeNode<string>("f");
-	TreeNode<string>* t5 = new TreeNode<string>("5");
-	TreeNode<string>* t6 = new TreeNode<string>("2");
-	TreeNode<string>* t7 = new TreeNode<string>("y");
-	TreeNode<string>* t8 = new TreeNode<string>("-");
-	TreeNode<string>* t9 = new TreeNode<string>("z");
+	Tree<string>::Node* t2 = new Tree<string>::Node("x");
+	Tree<string>::Node* t3 = new Tree<string>::Node("*");
+	Tree<string>::Node* t4 = new Tree<string>::Node("f");
+	Tree<string>::Node* t5 = new Tree<string>::Node("5");
+	Tree<string>::Node* t6 = new Tree<string>::Node("2");
+	Tree<string>::Node* t7 = new Tree<string>::Node("y");
+	Tree<string>::Node* t8 = new Tree<string>::Node("-");
+	Tree<string>::Node* t9 = new Tree<string>::Node("z");
 	T.getRoot()->insertChild(t2);
 	t2->insertSibling(t3);
 	t3->insertChild(t4);
@@ -48,15 +48,15 @@ int main()
 }
 
 template<typename T>
-void preVisit(TreeNode<T>* n, int level)
+void preVisit(typename Tree<T>::Node* n, int level)
 {
     for(int i = 0; i < level; i++)
         cout << "\t";
     cout << n->getValue() << endl;
-    TreeNode<T>* u = n->getChild();
+    typename Tree<T>::Node* u = n->getChild();
     while (u != nullptr)
     {
-        preVisit(u,level + 1);
+        preVisit<T>(u,level + 1);
         u = u->getSibling();
     }
 }
@@ -65,7 +65,7 @@ template<typename T>
 void preVisit(Tree<T>& t)
 {
     if(t.getRoot() != nullptr)
-        preVisit(t.getRoot(),0);
+        preVisit<T>(t.getRoot(),0);
     cout << endl;
 }
 
@@ -73,17 +73,17 @@ template<typename T>
 void postVisit(Tree<T>& t)
 {
     if(t.getRoot() != nullptr)
-        postVisit(t.getRoot());
+        postVisit<T>(t.getRoot());
     cout << endl;
 }
 
 template<typename T>
-void postVisit(TreeNode<T>* t)
+void postVisit(typename Tree<T>::Node* t)
 {
-    TreeNode<T>* u = t->getChild();
+    typename Tree<T>::Node* u = t->getChild();
     while (u != nullptr)
     {
-        postVisit(u);
+        postVisit<T>(u);
         u = u->getSibling();
     }
     cout << t->getValue() << " ";
@@ -93,25 +93,25 @@ template<typename T>
 void inVisit(Tree<T>& t,int i)
 {
     if(t.getRoot() != nullptr)
-        inVisit(t.getRoot(),i);
+        inVisit<T>(t.getRoot(),i);
     cout << endl;
 }
 
 template<typename T>
-void inVisit(TreeNode<T>* t,int i)
+void inVisit(typename Tree<T>::Node* t,int i)
 {
     int k = 0;
-    TreeNode<T>* u = t->getChild();
+    typename Tree<T>::Node* u = t->getChild();
     while ((u != nullptr) && (k < i))
     {
-        inVisit(u,i);
+        inVisit<T>(u,i);
         u = u->getSibling();
         k++;
     }
     cout << t->getValue() << " ";
     while (u != nullptr)
     {
-        inVisit(u,i);
+        inVisit<T>(u,i);
         u = u->getSibling();
     }
 }
@@ -121,11 +121,11 @@ void levelVisit(Tree<T>& t)
 {
     if(t.getRoot() != nullptr)
     {
-        Queue<TreeNode<T>*> q; 
+        Queue<typename Tree<T>::Node*> q; 
         q.enqueue(t.getRoot());
         while (!q.isEmpty())
         {
-            TreeNode<T>* u = q.dequeue(); 
+            typename Tree<T>::Node* u = q.dequeue(); 
             cout << u->getValue() << " ";
             u = u->getChild();
             while (u != nullptr)
