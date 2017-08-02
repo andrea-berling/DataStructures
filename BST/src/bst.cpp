@@ -3,37 +3,6 @@
 #include "../include/bst.h"
 
 template<typename T>
-T RBTree<T>::Node::getKey() const
-{
-    return key;
-}
-// Key getter
-
-template<typename T>
-typename RBTree<T>::Node* RBTree<T>::Node::getParent() const
-{
-    return parent;
-}
-
-template<typename T>
-typename RBTree<T>::Node* RBTree<T>::Node::getLeft() const
-{
-    return left;
-}
-
-template<typename T>
-typename RBTree<T>::Node* RBTree<T>::Node::getRight() const
-{
-    return right;
-}
-
-template<typename T>
-color_t RBTree<T>::Node::getColor() const
-{
-    return color;
-}
-
-template<typename T>
 void RBTree<T>::link(RBTree<T>::Node* p,RBTree<T>::Node* u,const T x)
 {
     if(u != nullptr)
@@ -56,7 +25,11 @@ RBTree<T>::RBTree()
 template<typename T>
 RBTree<T>::RBTree(const T key)
 {
-    root = new Node(key);
+    root = new Node();
+    root->left = nullptr;
+    root->right = nullptr;
+    root->parent = nullptr;
+    root->color = BLACK;
 }
 
 template<typename T>
@@ -113,7 +86,12 @@ void RBTree<T>::insertNode(const T x)
     }
     if (u == nullptr || u->key != x)
     {
-        typename RBTree<T>::Node* n = new RBTree<T>::Node(x);
+        typename RBTree<T>::Node* n = new RBTree<T>::Node();
+        n->key = x;
+        n->left = nullptr;
+        n->right = nullptr;
+        n->parent = nullptr;
+        n->color = BLACK;
         link(p,n,x);
         balanceInsert(n);
         while(n->parent != nullptr)
@@ -192,6 +170,9 @@ void RBTree<T>::removeNode(T x)
                 else
                 {
                     typename RBTree<T>::Node* dummy = new RBTree<T>::Node();
+                    dummy->right = nullptr;
+                    dummy->left = nullptr;
+                    dummy->color = BLACK;
                     dummy->parent = u->parent;
                     if(u->parent->right == nullptr)
                         u->parent->right = dummy;
@@ -450,4 +431,88 @@ typename RBTree<T>::Node* RBTree<T>::getRoot() const
     return root;
 }
 
+template<typename T>
+typename RBTree<T>::iterator RBTree<T>::begin()
+{
+    typename RBTree<T>::iterator it(*this,min());
+    return it;
+}
+// Returns an typename RBTree<T>::iterator pointing to the first element of the tree
+
+template<typename T>
+typename RBTree<T>::iterator RBTree<T>::end()
+{
+    typename RBTree<T>::iterator it(*this,nullptr);
+    return it;
+}
+// Returns an typename RBTree<T>::iterator pointing to one past the end
+
+template<typename T>
+typename RBTree<T>::iterator RBTree<T>::last()
+{
+    typename RBTree<T>::iterator it(*this,max());
+    return it;
+}
+// Returns an typename RBTree<T>::iterator pointo to the last element
+
+template<typename T>
+T& RBTree<T>::iterator::operator*() const
+{
+    return node->key;
+}
+// Returns the element pointed by the iterator
+
+template<typename T>
+bool RBTree<T>::iterator::operator==(const typename RBTree<T>::iterator rhs) const
+{
+    return node == rhs.node && baseTree == rhs.baseTree;
+}
+// Returns true if the node pointed by the lhs iterator is the same as the one pointed by rhs
+
+template<typename T>
+bool RBTree<T>::iterator::operator!=(const typename RBTree<T>::iterator rhs) const
+{
+    return !(*this == rhs);
+}
+// Returns !(lhs == rhs)
+
+template<typename T>
+typename RBTree<T>::iterator& RBTree<T>::iterator::operator++()
+{
+    if(node != nullptr)
+    {
+        node = baseTree->successorNode(node);
+    }
+    return *this;
+}
+// Increments the RBTree<T>::iterator and returns the new RBTree<T>::iterator (prefix increment)
+
+template<typename T>
+typename RBTree<T>::iterator RBTree<T>::iterator::operator++(int)
+{
+    RBTree<T>::iterator old(*this);
+    ++(*this);
+    return old;
+}
+// Increments the RBTree<T>::iterator and returns the RBTree<T>::iterator as it was before the increment (postfix increment)
+
+template<typename T>
+typename RBTree<T>::iterator& RBTree<T>::iterator::operator--()
+{
+    if(node != nullptr)
+    {
+        node = baseTree->predecessorNode(node);
+    }
+    return *this;
+}
+// Decrements the RBTree<T>::iterator and returns the new RBTree<T>::iterator (prefix decrement)
+
+template<typename T>
+typename RBTree<T>::iterator RBTree<T>::iterator::operator--(int)
+{
+    RBTree<T>::iterator old(*this);
+    --(*this);
+    return old;
+}
+// Decrements the RBTree<T>::iterator and returns the RBTree<T>::iterator as it was before the increment (postfix decrement)
 #endif

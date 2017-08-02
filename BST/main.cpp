@@ -41,7 +41,7 @@ int main()
 
     while(it != nullptr)
     {
-        int rem = it->getKey();
+        int rem = it->key;
         it = a.successorNode(it);
         a.removeNode(rem);
     }
@@ -50,18 +50,32 @@ int main()
 template<typename T>
 void listTree(RBTree<T>& t)
 {
+    /*
     if (t.getRoot() != nullptr)
     {
         typename RBTree<T>::Node *i = t.min();
 
         while(i != nullptr)
         {
-            cout << i->getKey() << " ";
+            cout << i->key << " ";
             i = t.successorNode(i);
         }
 
         cout << endl;
     }
+    */
+
+    /*
+    for(typename RBTree<T>::iterator it = t.begin(); it != t.end(); ++it)
+        cout << *it << " ";
+    */
+
+    for(T& item : t)
+    {
+        item++;
+        cout << item << " ";
+    }
+    cout << endl;
 }
 
 template<typename T>
@@ -84,11 +98,11 @@ void visit_by_level(typename RBTree<T>::Node* t, int spaces)
     while(!q.isEmpty())
     {
         typename RBTree<T>::Node* u = q.dequeue();
-        cout << u->getKey() << " " ;
-        if(u->getLeft() != nullptr)
-            q.enqueue(u->getLeft());
-        if(u->getRight() != nullptr)
-            q.enqueue(u->getRight());
+        cout << u->key << " " ;
+        if(u->left != nullptr)
+            q.enqueue(u->left);
+        if(u->right != nullptr)
+            q.enqueue(u->right);
     }
     cout << endl;
 }
@@ -100,8 +114,8 @@ int height(typename RBTree<T>::Node* t)
         return 0;
     else
     {
-        int l = height<T>(t->getLeft()) + 1;
-        int r = height<T>(t->getRight()) + 1;
+        int l = height<T>(t->left) + 1;
+        int r = height<T>(t->right) + 1;
 
         return r > l ? r : l;
     }
@@ -126,9 +140,9 @@ void printTree(typename RBTree<T>::Node* t,int level)
     {
         for(int i = 0; i < level; i++)
             cout << "\t";
-        char color = t->getColor() == BLACK ? 'B' : 'R';
-        cout << color << ":" << t->getKey() << endl;
-        printTree<T>(t->getLeft(),level + 1);
-        printTree<T>(t->getRight(),level + 1);
+        char color = t->color == BLACK ? 'B' : 'R';
+        cout << color << ":" << t->key << endl;
+        printTree<T>(t->left,level + 1);
+        printTree<T>(t->right,level + 1);
     }
 }

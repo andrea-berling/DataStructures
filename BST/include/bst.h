@@ -11,49 +11,66 @@ class RBTree
 {
     public:
 
-            class Node
-            {
-                private:
+        struct Node
+        {
+                T key;
+                Node *parent,*left,*right;
+                color_t color;
+        };
 
-                    friend class RBTree<T>;
-                    T key;
-                    Node *parent,*left,*right;
-                    color_t color;
+        class iterator
+        {
+            private:
 
-                public:
+                RBTree<T>* baseTree;
+                Node* node;
 
-                    Node(): key(T()),parent(nullptr),left(nullptr),right(nullptr),color(BLACK) {}
-                    // Default constructor
+            public:
 
-                    Node(const T key): key(key),parent(nullptr),left(nullptr),right(nullptr),color(BLACK) {}
-                    // Creates a node given a key
+                iterator(RBTree<T>& tree,RBTree<T>::Node* node): baseTree(&tree),node(node) {}
+                // Creates a new List_iterator given a node
 
-                    T getKey() const;
-                    // Key getter
+                iterator(): node(nullptr) {}
+                // Default constructor
 
-                    Node* getParent() const;
-                    // Getter for the parent of the node
+                iterator(const iterator& it)
+                {
+                    this->baseTree = it.baseTree;
+                    this->node = it.node;
+                }
+                // Copy constructor
 
-                    Node* getLeft() const;
-                    // Getter for the left child of the node
+                T& operator*() const;
+                // Returns the element pointed by the iterator
 
-                    Node* getRight() const;
-                    // Getter for the right child of the node
+                bool operator==(const iterator rhs) const;
+                // Returns true if the node pointed by the lhs iterator is the same as the one pointed by rhs
 
-                    color_t getColor() const;
-                    // Getter for the color of the node
+                bool operator!=(const iterator rhs) const;
+                // Returns !(lhs == rhs)
 
-            };
+                iterator& operator++();
+                // Increments the iterator and returns the new iterator (prefix increment)
+
+                iterator operator++(int);
+                // Increments the iterator and returns the iterator as it was before the increment (postfix increment)
+
+                iterator& operator--();
+                // Decrements the iterator and returns the new iterator (prefix decrement)
+
+                iterator operator--(int);
+                // Decrements the iterator and returns the iterator as it was before the increment (postfix decrement)
+        };
 
         RBTree();
         // Default constructor
 
         RBTree(const T key);
         // Creates a new tree given a key
-        
+
         RBTree(const Node& u);
         // Creates a new tree given an existing node
-        
+
         ~RBTree();
         // Destructor
 
@@ -68,10 +85,10 @@ class RBTree
 
         Node* min() const;
         // It returns a pointer to the node with the "smallest" key
-        
+
         Node* max() const;
         // It returns a pointer to the node with the "biggest" key
-        
+
         void removeNode(T x);
         // It removes the x key-value pair in the tree; it returns a pointer to the root of the new tree
 
@@ -98,6 +115,15 @@ class RBTree
 
         void link(Node* p,Node* u,const T x);
         // auxiliary procedure to link two nodes
+        
+        iterator begin();
+        // Returns an iterator pointing to the first element of the tree
+
+        iterator end();
+        // Returns an iterator pointing to one past the end
+
+        iterator last();
+        // Returns an iterator pointo to the last element
 
     private:
 
