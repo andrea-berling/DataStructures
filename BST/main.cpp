@@ -11,7 +11,7 @@ template<typename T>
 void printTree(RBTree<T>& t);
 
 template<typename T>
-void printTree(RBNode<T>* t,int level);
+void printTree(typename RBTree<T>::Node* t,int level);
 
 template<typename T>
 void visit_by_level(RBTree<T>& t);
@@ -37,7 +37,7 @@ int main()
     printTree(a);
     cout << "The height of the tree is " << height<int>(a) << endl;
 
-    RBNode<int>* it = a.min();
+    RBTree<int>::Node* it = a.min();
 
     while(it != nullptr)
     {
@@ -52,7 +52,7 @@ void listTree(RBTree<T>& t)
 {
     if (t.getRoot() != nullptr)
     {
-        RBNode<T> *i = t.min();
+        typename RBTree<T>::Node *i = t.min();
 
         while(i != nullptr)
         {
@@ -65,25 +65,25 @@ void listTree(RBTree<T>& t)
 }
 
 template<typename T>
-void visit_by_level(RBNode<T>* t, int spaces);
+void visit_by_level(typename RBTree<T>::Node* t, int spaces);
 
 template<typename T>
 void visit_by_level(RBTree<T>& t)
 {
     if(t.getRoot() != nullptr)
     {
-        visit_by_level(t.getRoot(),0);
+        visit_by_level<T>(t.getRoot(),0);
     }
 }
 
 template<typename T>
-void visit_by_level(RBNode<T>* t, int spaces)
+void visit_by_level(typename RBTree<T>::Node* t, int spaces)
 {
-    Queue<RBNode<T>*> q;
+    Queue<typename RBTree<T>::Node*> q;
     q.enqueue(t);
     while(!q.isEmpty())
     {
-        RBNode<T>* u = q.dequeue();
+        typename RBTree<T>::Node* u = q.dequeue();
         cout << u->getKey() << " " ;
         if(u->getLeft() != nullptr)
             q.enqueue(u->getLeft());
@@ -94,14 +94,14 @@ void visit_by_level(RBNode<T>* t, int spaces)
 }
 
 template<typename T>
-int height(RBNode<T>* t)
+int height(typename RBTree<T>::Node* t)
 {
     if(t == nullptr)
         return 0;
     else
     {
-        int l = height(t->getLeft()) + 1;
-        int r = height(t->getRight()) + 1;
+        int l = height<T>(t->getLeft()) + 1;
+        int r = height<T>(t->getRight()) + 1;
 
         return r > l ? r : l;
     }
@@ -110,17 +110,17 @@ int height(RBNode<T>* t)
 template<typename T>
 int height(RBTree<T>& t)
 {
-    return height(t.getRoot());
+    return height<T>(t.getRoot());
 }
 
 template<typename T>
 void printTree(RBTree<T>& t)
 {
-    printTree(t.getRoot(),0);
+    printTree<T>(t.getRoot(),0);
 }
 
 template<typename T>
-void printTree(RBNode<T>* t,int level)
+void printTree(typename RBTree<T>::Node* t,int level)
 {
     if(t != nullptr)
     {
@@ -128,7 +128,7 @@ void printTree(RBNode<T>* t,int level)
             cout << "\t";
         char color = t->getColor() == BLACK ? 'B' : 'R';
         cout << color << ":" << t->getKey() << endl;
-        printTree(t->getLeft(),level + 1);
-        printTree(t->getRight(),level + 1);
+        printTree<T>(t->getLeft(),level + 1);
+        printTree<T>(t->getRight(),level + 1);
     }
 }

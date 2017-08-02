@@ -3,58 +3,38 @@
 #include "../include/bst.h"
 
 template<typename T>
-RBNode<T>::RBNode()
-{
-    parent = nullptr;
-    left = nullptr;
-    right = nullptr;
-    color = BLACK;
-}
-// Default constructor
-
-template<typename T>
-RBNode<T>::RBNode(const T key): key(key)
-{
-    parent = nullptr;
-    left = nullptr;
-    right = nullptr;
-    color = BLACK;
-}
-// Creates a node given a key
-
-template<typename T>
-T RBNode<T>::getKey() const
+T RBTree<T>::Node::getKey() const
 {
     return key;
 }
 // Key getter
 
 template<typename T>
-RBNode<T>* RBNode<T>::getParent() const
+typename RBTree<T>::Node* RBTree<T>::Node::getParent() const
 {
     return parent;
 }
 
 template<typename T>
-RBNode<T>* RBNode<T>::getLeft() const
+typename RBTree<T>::Node* RBTree<T>::Node::getLeft() const
 {
     return left;
 }
 
 template<typename T>
-RBNode<T>* RBNode<T>::getRight() const
+typename RBTree<T>::Node* RBTree<T>::Node::getRight() const
 {
     return right;
 }
 
 template<typename T>
-color_t RBNode<T>::getColor() const
+color_t RBTree<T>::Node::getColor() const
 {
     return color;
 }
 
 template<typename T>
-void link(RBNode<T>* p,RBNode<T>* u,const T x)
+void RBTree<T>::link(RBTree<T>::Node* p,RBTree<T>::Node* u,const T x)
 {
     if(u != nullptr)
         u->parent = p;
@@ -76,11 +56,11 @@ RBTree<T>::RBTree()
 template<typename T>
 RBTree<T>::RBTree(const T key)
 {
-    root = new RBNode<T>(key);
+    root = new Node(key);
 }
 
 template<typename T>
-RBTree<T>::RBTree(const RBNode<T>& u)
+RBTree<T>::RBTree(const RBTree<T>::Node& u)
 {
     root = &u;
 }
@@ -90,8 +70,8 @@ RBTree<T>::~RBTree()
 {
     if (root != nullptr)
     {
-        RBNode<T>* old = min();
-        RBNode<T>* next = successorNode(old);
+        typename RBTree<T>::Node* old = min();
+        typename RBTree<T>::Node* next = successorNode(old);
 
         while(next != nullptr)
         {
@@ -106,16 +86,16 @@ RBTree<T>::~RBTree()
 // Creates a new tree given an existing node
 
 template<typename T>
-RBNode<T>* RBTree<T>::lookupNode(const T x) const
+typename RBTree<T>::Node* RBTree<T>::lookupNode(const T x) const
 {
-    RBNode<T> *t = root;
+    typename RBTree<T>::Node *t = root;
     while(t != nullptr && t->key != x)
         t = x < t->key ? t->left : t->right;
     return t;
 }
 
 template<typename T>
-void RBTree<T>::insertNode(const RBNode<T>* u)
+void RBTree<T>::insertNode(const RBTree<T>::Node* u)
 {
     if(u != nullptr)
        insertNode(u->key);
@@ -124,8 +104,8 @@ void RBTree<T>::insertNode(const RBNode<T>* u)
 template<typename T>
 void RBTree<T>::insertNode(const T x)
 {
-    RBNode<T> *p = nullptr;
-    RBNode<T> *u = root;
+    typename RBTree<T>::Node *p = nullptr;
+    typename RBTree<T>::Node *u = root;
     while(u != nullptr && u->key != x)
     {
         p = u;
@@ -133,7 +113,7 @@ void RBTree<T>::insertNode(const T x)
     }
     if (u == nullptr || u->key != x)
     {
-        RBNode<T>* n = new RBNode<T>(x);
+        typename RBTree<T>::Node* n = new RBTree<T>::Node(x);
         link(p,n,x);
         balanceInsert(n);
         while(n->parent != nullptr)
@@ -143,13 +123,13 @@ void RBTree<T>::insertNode(const T x)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::min() const
+typename RBTree<T>::Node* RBTree<T>::min() const
 {
     if(root == nullptr)
         return root;
     else
     {
-        RBNode<T>* t = root;
+        typename RBTree<T>::Node* t = root;
         while(t->left != nullptr)
             t = t->left;
         return t;
@@ -157,13 +137,13 @@ RBNode<T>* RBTree<T>::min() const
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::max() const
+typename RBTree<T>::Node* RBTree<T>::max() const
 {
     if(root == nullptr)
         return root;
     else
     {
-        RBNode<T>* t = root;
+        typename RBTree<T>::Node* t = root;
         while(t->right != nullptr)
             t = t->right;
         return t;
@@ -173,12 +153,12 @@ RBNode<T>* RBTree<T>::max() const
 template<typename T>
 void RBTree<T>::removeNode(T x)
 {
-    RBNode<T>* u = lookupNode(x);
+    typename RBTree<T>::Node* u = lookupNode(x);
     if(u != nullptr)
     {
         if(u->left != nullptr && u->right != nullptr)
         {
-            RBNode<T>* s = u->right;
+            typename RBTree<T>::Node* s = u->right;
             while(s->left != nullptr)
                 s = s->left;
             u->key = s->key;
@@ -186,7 +166,7 @@ void RBTree<T>::removeNode(T x)
             u = s;
         }
 
-        RBNode<T>* t;
+        typename RBTree<T>::Node* t;
         if(u->left != nullptr && u->right == nullptr)
             t = u->left;
         else
@@ -211,7 +191,7 @@ void RBTree<T>::removeNode(T x)
                     balanceDelete(t);
                 else
                 {
-                    RBNode<T>* dummy = new RBNode<T>();
+                    typename RBTree<T>::Node* dummy = new RBTree<T>::Node();
                     dummy->parent = u->parent;
                     if(u->parent->right == nullptr)
                         u->parent->right = dummy;
@@ -241,7 +221,7 @@ void RBTree<T>::removeNode(T x)
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t) const
+typename RBTree<T>::Node* RBTree<T>::successorNode(RBTree<T>::Node* t) const
 {
     if(t == nullptr)
         return t;
@@ -252,7 +232,7 @@ RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t) const
             t = t->left;
         return t;
     }
-    RBNode<T>* p = t->parent;
+    typename RBTree<T>::Node* p = t->parent;
     while(p != nullptr && t == p->right)
     {
         t = p;
@@ -263,7 +243,7 @@ RBNode<T>* RBTree<T>::successorNode(RBNode<T>* t) const
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t) const
+typename RBTree<T>::Node* RBTree<T>::predecessorNode(RBTree<T>::Node* t) const
 {
     if(t == nullptr)
         return t; 
@@ -274,7 +254,7 @@ RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t) const
             t = t->right;
         return t;
     }
-    RBNode<T>* p = t->parent;
+    typename RBTree<T>::Node* p = t->parent;
     while(p != nullptr && t == p->left)
     {
         t = p;
@@ -287,10 +267,10 @@ RBNode<T>* RBTree<T>::predecessorNode(RBNode<T>* t) const
 //OLD STUFF
 
 template<typename T>
-RBNode<T>* RBTree<T>::rotateLeft(RBNode<T>* x) const
+typename RBTree<T>::Node* RBTree<T>::rotateLeft(RBTree<T>::Node* x) const
 {
-    RBNode<T>* y = x->right;
-    RBNode<T>* p = x->parent;
+    typename RBTree<T>::Node* y = x->right;
+    typename RBTree<T>::Node* p = x->parent;
 
     x->right = y->left;
     if (y->left != nullptr)
@@ -310,10 +290,10 @@ RBNode<T>* RBTree<T>::rotateLeft(RBNode<T>* x) const
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::rotateRight(RBNode<T>* x) const
+typename RBTree<T>::Node* RBTree<T>::rotateRight(RBTree<T>::Node* x) const
 {
-    RBNode<T>* y = x->left;
-    RBNode<T>* p = x->parent;
+    typename RBTree<T>::Node* y = x->left;
+    typename RBTree<T>::Node* p = x->parent;
 
     x->left = y->right;
     if (y->right != nullptr)
@@ -333,15 +313,15 @@ RBNode<T>* RBTree<T>::rotateRight(RBNode<T>* x) const
 }
 
 template<typename T>
-void RBTree<T>::balanceInsert(RBNode<T>* t) const
+void RBTree<T>::balanceInsert(RBTree<T>::Node* t) const
 {
     t->color = RED;
 
     while (t != nullptr)
     {
-        RBNode<T>* p = t->parent;
-        RBNode<T>* n = p != nullptr ? p->parent : nullptr;
-        RBNode<T>* z = n == nullptr ? nullptr : (n->left == p ? n->right : n->left) ;
+        typename RBTree<T>::Node* p = t->parent;
+        typename RBTree<T>::Node* n = p != nullptr ? p->parent : nullptr;
+        typename RBTree<T>::Node* z = n == nullptr ? nullptr : (n->left == p ? n->right : n->left) ;
         if (p == nullptr)
         {
             t->color = BLACK;
@@ -384,16 +364,16 @@ void RBTree<T>::balanceInsert(RBNode<T>* t) const
 }
 
 template<typename T>
-void RBTree<T>::balanceDelete(RBNode<T>* t) const
+void RBTree<T>::balanceDelete(RBTree<T>::Node* t) const
 {
     while(t != root && t->color == BLACK)
     {
-        RBNode<T>* p = t->parent;
+        typename RBTree<T>::Node* p = t->parent;
         if (t == p->left)
         {
-            RBNode<T>* f = p->right;
-            RBNode<T>* ns = f == nullptr ? nullptr : f->left;
-            RBNode<T>* nd = f == nullptr ? nullptr : f->right;
+            typename RBTree<T>::Node* f = p->right;
+            typename RBTree<T>::Node* ns = f == nullptr ? nullptr : f->left;
+            typename RBTree<T>::Node* nd = f == nullptr ? nullptr : f->right;
             if (f != nullptr && f->color == RED)
             {
                 p->color = RED;
@@ -426,9 +406,9 @@ void RBTree<T>::balanceDelete(RBNode<T>* t) const
         }
         else
         {
-            RBNode<T>* f = p->left;
-            RBNode<T>* ns = f == nullptr ? nullptr : f->left;
-            RBNode<T>* nd = f == nullptr ? nullptr : f->right;
+            RBTree<T>::Node* f = p->left;
+            RBTree<T>::Node* ns = f == nullptr ? nullptr : f->left;
+            RBTree<T>::Node* nd = f == nullptr ? nullptr : f->right;
             if (f != nullptr && f->color == RED)
             {
                 p->color = RED;
@@ -465,7 +445,7 @@ void RBTree<T>::balanceDelete(RBNode<T>* t) const
 }
 
 template<typename T>
-RBNode<T>* RBTree<T>::getRoot() const
+typename RBTree<T>::Node* RBTree<T>::getRoot() const
 {
     return root;
 }
