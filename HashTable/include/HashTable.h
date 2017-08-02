@@ -93,7 +93,7 @@ class HashTable
         ~HashTable();
         // Destructor
         
-        bool contains(ValueType e) const;
+        bool contains(K k) const;
         // Returns true if the hashtable contains k
 
         V lookup(const K k) const;

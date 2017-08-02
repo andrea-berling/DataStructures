@@ -128,9 +128,9 @@ V HashTable<K,V>::lookup(const K k) const
 //returns the value being searched if present, nil otherwise
 
 template<typename K,typename V>
-bool HashTable<K,V>::contains(ValueType e) const
+bool HashTable<K,V>::contains(K k) const
 {
-    int i = Hash(hash<ValueType>()(e));
+    int i = Hash(hash<K>()(k));
     if(entries[i].empty())
         return false;
     else
@@ -139,7 +139,7 @@ bool HashTable<K,V>::contains(ValueType e) const
         bool found = false;
         while (it != entries[i].end() && !found)
         {
-            if(*it == e)
+            if(*it == k)
                 return true;
             it++;
         }
@@ -164,6 +164,7 @@ void HashTable<K,V>::insert(ValueType e)
     {
         if(*it == e) // here the == operator returns true if two hashPairs have the same key
         {
+            *it = e; // here the assignement makes sure that the value is changed
             found = true;
         }
         it++;

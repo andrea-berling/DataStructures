@@ -114,6 +114,7 @@ int main()
         (*it).value.print();
 
     cout << "H2" << endl;
+    H2.insert({"numero 1",{"numero 2",2}});
     for(auto p : H2)
         p.value.print();
       
