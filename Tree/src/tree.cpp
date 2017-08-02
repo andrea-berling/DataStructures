@@ -26,32 +26,11 @@ Tree<T>::~Tree()
 }
 // Constructs a tree with a single node containing v
 
-/*
-template<typename T>
-Tree<T>::Tree(const Tree& t)
-{
-    T v = t.getRoot().getValue();
-    this->root = new Tree<T>::Node(v);
-    typename Tree<T>::Node* u
-}
-// Copy constructor
-*/
-
 template<typename T>
 typename Tree<T>::Node* Tree<T>::getRoot() const
 {
     return root;
 }
-
-/*
-template<typename T>
-typename Tree<T>::Node::Node() : parent(nullptr),child(nullptr),sibling(nullptr)
-{ }
-
-template<typename T>
-typename Tree<T>::Node::TreeNode(const T value) : parent(nullptr),child(nullptr),sibling(nullptr),value(value)
-{ }
-*/
 
 template<typename T>
 T& Tree<T>::Node::getValue()

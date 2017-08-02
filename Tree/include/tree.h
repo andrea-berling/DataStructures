@@ -56,7 +56,7 @@ class Tree
 		Tree();
 		// Constructs an empty tree
 		
-		//Tree(const Tree& t);
+		// Tree(const Tree& t);
         // Copy constructor
 
 		Tree(const T v);
