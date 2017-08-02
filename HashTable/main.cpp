@@ -83,30 +83,38 @@ bool operator ==(const Node& n1, const Node& n2)
 int main()
 {
 
-    HashTable<string,Node> H2(10);
+    HashTable<string,Node> H(17);
 
-    H2.insert("numero 1",{"numero 1", 1});
-    H2.insert("numero 2",{"numero 2", 2});
-    H2.insert("numero 3",{"numero 3", 3});
-    H2.insert("numero 4",{"numero 4", 4});
+    H.insert({"numero 1",{"numero 1", 1}});
+    H.insert({"numero 2",{"numero 2", 2}});
+    H.insert({"numero 3",{"numero 3", 3}});
+    H.insert({"numero 4",{"numero 4", 4}});
+
+    HashTable<string,Node> H2(H);
 
     Node i;
 
-    i = H2.lookup("numero 1");
+    i = H.lookup("numero 1");
     i.print();
-    i = H2.lookup("numero 4");
+    i = H.lookup("numero 4");
     i.print();
-    i = H2["numero 2"];
+    i = H["numero 2"];
     i.print();
-    i = H2["numero 3"];
+    i = H["numero 3"];
     i.print();
 
-    H2.remove("numero 1");
-    i = H2.lookup("numero 1");
+    H.remove("numero 1");
+    i = H.lookup("numero 1");
     if(i == Node())
         cout << "Element not found" << endl;
 
+
     
-    for(hash_iterator<string,Node> it = H2.begin(); it != it.end(); it++)
-        (*it).getValue().print();
+    for(HashTable<string,Node>::iterator it = H.begin(); it != H.end(); it++)
+        (*it).value.print();
+
+    cout << "H2" << endl;
+    for(auto p : H2)
+        p.value.print();
+      
 }
