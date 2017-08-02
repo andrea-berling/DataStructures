@@ -4,225 +4,123 @@
 #include "../../HashTable/include/HashTable.h"
 #include "../../BST/include/bst.h"
 
-namespace list
+template<typename T>
+class UnorderedListSet
 {
-    template<typename T> class set_iterator;
+    private:
 
-    template<typename T>
-    bool operator ==(const set_iterator<T>& it1, const set_iterator<T>& it2);
+        List<T> elements;
+        int cardinality;
 
-    template<typename T>
-    bool operator !=(const set_iterator<T>& it1, const set_iterator<T>& it2);
+    public:
 
-    template<typename T>
-    class set_iterator
-    {
-        private:
+        using iterator = typename List<T>::iterator;
 
-            List<T>* baseList;
-            List_iterator<T> p;
+        UnorderedListSet();
+        // Default constructor; creates a new empty set
 
-        public:
+        bool isEmpty();
+        // Returns true if the set is empty, false otherwise
 
-            set_iterator();
+        bool contains(T x);
+        // Returns true if the set contains x, false otherwise
 
-            set_iterator(const set_iterator& it);
+        bool insert(T x);
+        // Returns true if x is not in the element and is successfully inserted; false if present
 
-            set_iterator begin(List<T>* l);
+        bool remove(T x);
+        // Return ture if x is present in the set and removes it; false if absent
 
-            set_iterator end(List<T>* l);
+        int size();
 
-            void operator =(const set_iterator& rightside);
-            
-            set_iterator operator ++(); //prefix
+        // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
 
-            set_iterator operator ++( int ); //postfix
+        iterator begin();
+        // Returns a reference to the first element in the list
 
-            set_iterator operator --(); //prefix
+        iterator end();
+        // Returns a reference to the end fo the list
+};
 
-            set_iterator operator --( int ); //postfix
 
-            T operator *();
-
-            friend bool operator == <>(const set_iterator<T>& it1, const set_iterator<T>& it2);
-
-            friend bool operator != <>(const set_iterator<T>& it1, const set_iterator<T>& it2);
-
-    };
-
-    template<typename T>
-    class Set
-    {
-        private:
-
-            List<T> elements;
-            int cardinality;
-            friend class set_iterator<T>;
-
-        public:
-
-            Set();
-            // Default constructor; creates a new empty set
-
-            bool isEmpty();
-            // Returns true if the set is empty, false otherwise
-            
-            bool contains(T x);
-            // Returns true if the set contains x, false otherwise
-
-            bool insert(T x);
-            // Returns true if x is not in the element and is successfully inserted; false if present
-
-            bool remove(T x);
-            // Return ture if x is present in the set and removes it; false if absent
-
-            int size();
-
-            // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
-
-            set_iterator<T> begin();
-            // Returns a reference to the first element in the list
-
-            set_iterator<T> end();
-            // Returns a reference to the end fo the list
-            
-    };
-}
-
-namespace Hash
+template<typename T>
+class HashSet
 {
+    private:
 
-    template<typename T>
-    using set_iterator = typename keyOnly::hash_iterator<T>;
+        HashTable<T,void> elements; 
+        int cardinality;
 
-    template<typename T>
-    class Set
-    {
-        private:
+    public:
 
-            keyOnly::HashTable<T> elements; 
-            int cardinality;
+        using iterator = typename HashTable<T,void>::iterator;
 
-        public:
+        HashSet(const int capacity);
+        // Default constructor; creates a new empty set
 
-            Set(const int capacity);
-            // Default constructor; creates a new empty set
+        bool isEmpty() const;
+        // Returns true if the set is empty, false otherwise
 
-            bool isEmpty() const;
-            // Returns true if the set is empty, false otherwise
-            
-            bool contains(const T x) const;
-            // Returns true if the set contains x, false otherwise
+        bool contains(const T x);
+        // Returns true if the set contains x, false otherwise
 
-            bool insert(const T x);
-            // Returns true if x is not in the element and is successfully inserted; false if present
+        bool insert(const T x);
+        // Returns true if x is not in the element and is successfully inserted; false if present
 
-            bool remove(const T x);
-            // Return ture if x is present in the set and removes it; false if absent
+        bool remove(const T x);
+        // Return ture if x is present in the set and removes it; false if absent
 
-            int size() const;
+        int size() const;
 
-            // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
+        iterator begin();
+        // Returns a reference to the first element in the list
 
-            set_iterator<T> begin();
-            // Returns a reference to the first element in the list
+        iterator end();
+        // Returns a reference to the end fo the list
 
-            set_iterator<T> end();
-            // Returns a reference to the end fo the list
-            
-    };
+};
 
-}
-
-namespace Tree
+template<typename T>
+class TreeSet
 {
-    template<typename T> class set_iterator;
+    private:
 
-    template<typename T>
-    bool operator ==(const set_iterator<T> it1, const set_iterator<T> it2);
+        RBTree<T> elements;
+        int cardinality;
 
-    template<typename T>
-    bool operator !=(const set_iterator<T> it1, const set_iterator<T> it2);
+    public:
 
-    template<typename T>
-    class set_iterator
-    {
-        private:
+        using iterator = typename RBTree<T>::iterator;
 
-            RBTree<T>* baseTree;
-            RBNode<T>* p;
+        TreeSet();
+        // Default constructor; creates a new empty set
 
-        public:
+        bool isEmpty() const;
+        // Returns true if the set is empty, false otherwise
 
-            set_iterator();
+        bool contains(const T x) const;
+        // Returns true if the set contains x, false otherwise
 
-            set_iterator(const set_iterator& it);
+        bool insert(const T x);
+        // Returns true if x is not in the element and is successfully inserted; false if present
 
-            set_iterator begin(RBTree<T>& t);
+        bool remove(const T x);
+        // Return ture if x is present in the set and removes it; false if absent
 
-            set_iterator last(RBTree<T>& t);
+        int size() const;
 
-            set_iterator end(RBTree<T>& t);
+        // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
 
-            void operator =(const set_iterator rightside);
-            
-            set_iterator operator ++(); //prefix
+        iterator begin();
+        // Returns a reference to the first element in the list
 
-            set_iterator operator ++( int ); //postfix
+        iterator last();
+        // Returns a reference to the last element of the set
 
-            set_iterator operator --(); //prefix
+        iterator end();
+        // Returns a reference to the end of the list
 
-            set_iterator operator --( int ); //postfix
-
-            T operator *() const;
-
-            friend bool operator == <>(const set_iterator<T> it1, const set_iterator<T> it2);
-
-            friend bool operator != <>(const set_iterator<T> it1, const set_iterator<T> it2);
-
-    };
-
-    template<typename T>
-    class Set
-    {
-        private:
-
-            RBTree<T> elements;
-            int cardinality;
-            friend class set_iterator<T>;
-
-        public:
-
-            Set();
-            // Default constructor; creates a new empty set
-
-            bool isEmpty() const;
-            // Returns true if the set is empty, false otherwise
-            
-            bool contains(const T x) const;
-            // Returns true if the set contains x, false otherwise
-
-            bool insert(const T x);
-            // Returns true if x is not in the element and is successfully inserted; false if present
-
-            bool remove(const T x);
-            // Return ture if x is present in the set and removes it; false if absent
-
-            int size() const;
-
-            // ACCESSOR METHODS NEEDED FOR ITERATION OVER THE SET; GONNA CHANGE THEM
-
-            set_iterator<T> begin();
-            // Returns a reference to the first element in the list
-
-            set_iterator<T> last();
-            // Returns a reference to the last element of the set
-            
-            set_iterator<T> end();
-            // Returns a reference to the end of the list
-            
-    };
-}
+};
 
 #include "../src/set.cpp"
 

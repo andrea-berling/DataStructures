@@ -26,6 +26,13 @@ class Integer
             return this->i;
         }
 
+        Integer operator++(int)
+        {
+            Integer old = *this;
+            i++;
+            return old;
+        }
+
         friend bool operator ==(Integer n, Integer m);
         friend bool operator <(Integer n, Integer m);
         friend bool operator >(Integer n, Integer m);
@@ -71,25 +78,51 @@ namespace std
 
 int main()
 {
-    Hash::Set<Integer> a(193);
+    UnorderedListSet<Integer> set;
+
+    for(int i = 0; i < 10; i++)
+        set.insert(Integer(i));
+
+    cout << "Unordered List set" << endl;
+
+    for(auto element : set)
+    {
+        cout << element << " ";
+    }
+    cout << endl;
+    
+    for(int i = 0; i < 5; i++)
+        set.remove(Integer(i));
+    
+    for(UnorderedListSet<Integer>::iterator it = set.begin(); it != set.end(); it++)
+    {
+        cout << *it << " ";
+    }
+    cout << endl;
+
+    HashSet<Integer> hashSet(193);
     cout << "Hash set" << endl;
 
     for(int i = 0; i < 10; i++)
-        a.insert(Integer(i));
-    for(Hash::set_iterator<Integer> it = a.begin(); it != a.end(); it++)
+        hashSet.insert(Integer(i));
+    for(HashSet<Integer>::iterator it = hashSet.begin(); it != hashSet.end(); it++)
         cout << *it << " ";
 
     cout << endl;
 
     for(int i = 0; i < 5; i++)
-        a.remove(Integer(i));
+        hashSet.remove(Integer(i));
 
-    for(Hash::set_iterator<Integer> it = a.begin(); it != a.end(); it++)
-        cout << *it << " ";
+    for(Integer& i: hashSet)
+    {
+        i++;
+    }
 
+    for(Integer i : hashSet)
+        cout << i << " ";
     cout << endl;
 
-    Tree::Set<Integer> s;
+    TreeSet<Integer> s;
     cout << "Tree set" << endl;
 
     for(int i = 0; i < 10; i++)
@@ -97,7 +130,7 @@ int main()
         s.insert(Integer(i));
     }
 
-    for(Tree::set_iterator<Integer> it = s.begin(); it != s.end(); it++)
+    for(TreeSet<Integer>::iterator it = s.begin(); it != s.end(); it++)
     {
         cout << *it << " ";
     }
@@ -106,10 +139,9 @@ int main()
     for(int i = 0; i < 5; i++)
         s.remove(Integer(i));
     
-    for(Tree::set_iterator<Integer> it = s.last(); it != s.end(); it--)
+    for(auto e : s)
     {
-        cout << *it << " ";
+        cout << e << " ";
     }
     cout << endl;
-
 }
