@@ -51,7 +51,7 @@ void print_backwards(const List<T>& l)
 template<typename T>
 void incrementByOne(const List<T>& l)
 {
-    for(auto& n : l)
+    for(T& n : l)
 	{
         n++;
 	}

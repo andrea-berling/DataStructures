@@ -113,14 +113,20 @@ int main()
     for(int i = 0; i < 5; i++)
         hashSet.remove(Integer(i));
 
-    for(Integer& i: hashSet)
-    {
-        i++;
-    }
-
     for(Integer i : hashSet)
         cout << i << " ";
+
     cout << endl;
+    int test = 9;
+    if(hashSet.contains(test))
+        cout << "The set contains " << test << endl;
+    else
+        cout << "The set does not contain " << test << endl;
+    test = 10;
+    if(hashSet.contains(test))
+        cout << "The set contains " << test << endl;
+    else
+        cout << "The set does not contain " << test << endl;
 
     TreeSet<Integer> s;
     cout << "Tree set" << endl;
