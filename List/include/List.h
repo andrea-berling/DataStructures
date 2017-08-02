@@ -5,10 +5,6 @@
  * Implementation of a parametric bidirectional circular linked list with sentinel
  */
 
-//Base Node class, used for contaning the data
-template<typename T>
-class ListNode;
-
 template<typename T>
 class List 
 {
