@@ -21,6 +21,8 @@ class Tree
                 Node(const T value):parent(nullptr),child(nullptr),sibling(nullptr),value(value){}
                 // Creates a node given a value
 
+                Node(const Node& rhs):parent(nullptr),child(nullptr),sibling(nullptr),value(rhs.value){}
+
                 T& getValue();
                 // Value getter
 
@@ -68,11 +70,12 @@ class Tree
         Node* getRoot() const; 
         // getter for the root
 
-        void deleteTree(Node* t);
-        // Deletes the sub tree with root t
 
 	private:
 
+        void deleteTree(Node* t);
+        // Deletes the sub tree with root t
+        
         Node* root;
 
 };
