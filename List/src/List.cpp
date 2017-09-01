@@ -3,7 +3,7 @@
 #include "../include/List.h"
 
 template<typename T>
-List<T>::List()
+List<T>::List():size(0)
 {
     first = new List<T>::Node(); 
     first->next = first;
@@ -37,15 +37,6 @@ bool List<T>::empty() const
 }
 // Returns true if the sequence is empty
 
-/*
-template<typename T>
-bool List<T>::finished(const List_iterator<T> p) const
-{
-	return p.node == first;
-}
-*/
-// Returns true if the list is finished
-
 template<typename T>
 bool List<T>::contains(const T v) const
 {
@@ -78,7 +69,7 @@ typename List<T>::iterator List<T>::end() const
 // Returns the position of the last element
 
 template<typename T>
-void List<T>::insert(const List<T>::iterator p,const T v) const
+void List<T>::insert(const List<T>::iterator p,const T v)
 {
     List<T>::Node* t = new List<T>::Node();
 	t->value = v;
@@ -86,25 +77,27 @@ void List<T>::insert(const List<T>::iterator p,const T v) const
 	t->prev->next = t;
 	t->next = p.node;
 	p.node->prev = t;
+    size++;
 }
 // Inserts v in position p
 // returns the position of the new inserted element 
 
 template<typename T>
-void List<T>::insert(const T v) const
+void List<T>::insert(const T v)
 {
    insert(begin(),v); 
 }
 // Inserts v at the beginning
 
 template<typename T>
-void List<T>::remove(List<T>::iterator& p) const
+void List<T>::remove(List<T>::iterator& p)
 {
     List<T>::Node* t;
 	p.node->prev->next = p.node->next;
 	p.node->next->prev = p.node->prev;
     t = p.node;
     p++;
+    size--;
 	delete t;
 }
 // removes v in position p
@@ -117,6 +110,12 @@ void List<T>::write(const List<T>::iterator p,const T v) const
         p.node->value = v;
 }
 // writes v in position p
+
+template<typename T>
+unsigned int List<T>::getSize() const
+{
+    return size;
+}
 
 /*
 template<typename T>

@@ -21,9 +21,11 @@ int main()
 
     print(l);
     print_backwards(l);
+    cout << "The size of l is " << l.getSize() << endl;
     incrementByOne(l2);
     print(l2);
     print_backwards(l2);
+    cout << "The size of l2 is " << l2.getSize() << endl;
 }
 
 template<typename T>

@@ -17,6 +17,7 @@ class List
         };
 
         Node* first;
+        unsigned int size;
 
 	public:
 
@@ -85,17 +86,21 @@ class List
         // Returns an iterator pointing to the end of the list
         // WARNING it does not contain an element, it points to the sentinel
 
-        void insert(const iterator p,const T v) const;
+        void insert(const iterator p,const T v);
         // Inserts v in position p
 
-        void insert(const T v) const;
+        void insert(const T v);
         // Inserts v at the beginning
 
-        void remove(iterator& p) const;
+        void remove(iterator& p);
         // removes v in position p
 
         void write(const iterator p,const T v) const;
         // writes v in position p
+
+        unsigned int getSize() const;
+        // Returns the size of the list in O(1) time
+
 };
 
 #include "../src/List.cpp"
